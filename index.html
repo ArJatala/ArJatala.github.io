@@ -14,10 +14,6 @@
         .mono-text {
             font-family: 'JetBrains Mono', monospace;
         }
-        .neon-glow:hover {
-            border-color: #c084fc;
-            box-shadow: 0 0 30px rgba(192, 132, 252, 0.25);
-        }
         .system-card {
             background: linear-gradient(145deg, #0b0f19, #080c14);
             border: 1px solid #1e293b;
@@ -26,17 +22,24 @@
             scroll-behavior: smooth;
         }
 
-        /* HIGH-END DYNAMIC ROTATING BORDER ANIMATION */
-        @keyframes borderRotate {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* DYNAMIC NEON PURPLE PROFILE PICTURE ANIMATION */
+        @keyframes glowStream {
+            0% { border-color: #a855f7; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+            50% { border-color: #6366f1; box-shadow: 0 0 35px rgba(99, 102, 241, 0.7); }
+            100% { border-color: #a855f7; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
         }
-        .animated-border-container {
-            background: linear-gradient(270deg, #c084fc, #6366f1, #3b82f6, #a855f7);
-            background-size: 400% 400%;
-            animation: borderRotate 6s ease infinite;
-            padding: 3px; /* Controls the thickness of the animated line */
+        @keyframes profilePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .animated-profile-glow {
+            animation: glowStream 4s linear infinite, profilePulse 6s ease-in-out infinite;
+            border: 3px solid #a855f7;
+        }
+        /* Grid backup structure if image is rendering */
+        .cyber-grid-placeholder {
+            background-image: linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
     </style>
 </head>
@@ -56,17 +59,24 @@
 
     <header id="identity" class="max-w-6xl mx-auto px-6 pt-24 pb-16 grid lg:grid-cols-12 gap-12 items-center">
         <div class="lg:col-span-7 space-y-6 lg:order-1 order-2">
-            <div class="inline-flex items-center space-x-3 bg-purple-950/40 border border-purple-800/40 rounded-full px-4 py-1.5 text-xs text-purple-300 mono-text">
-                <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
-                <span>TITULAR STATUS: VICE PRESIDENT // CODE CATALYST CLUB</span>
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="inline-flex items-center space-x-3 bg-purple-950/40 border border-purple-800/40 rounded-full px-4 py-1.5 text-xs text-purple-300 mono-text">
+                    <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
+                    <span>TITULAR STATUS: VICE PRESIDENT // CODE CATALYST CLUB</span>
+                </div>
+                <a href="https://fatim1509.github.io/" target="_blank" class="inline-flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-full px-3 py-1.5 text-[11px] text-slate-300 mono-text transition">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span>[ VERIFY_NODE: FATIM1509 ]</span>
+                </a>
             </div>
+            
             <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white leading-tight">
                 The Architecture of <br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-violet-400 to-indigo-400">Sustained Intensity</span>
             </h1>
             <p class="text-slate-400 text-lg leading-relaxed">
                 Operating with a <code class="mono-text bg-slate-900 px-1.5 py-0.5 rounded text-purple-300 border border-slate-800 text-sm">"1GB RAM Mindset"</code>. 
-                Systems Integration Engineer specializing in stripping runtime constraints, backend defense vectors, and multi-agent resource allocation pipelines. Serving as the **Vice President of the CODE Catalyst Club**.
+                Systems Integration Engineer specializing in stripping runtime constraints, backend defense vectors, and multi-agent resource allocation pipelines. Proudly serving as the **Vice President of the CODE Catalyst Club**.
             </p>
             <div class="flex flex-wrap gap-4 pt-4">
                 <a href="https://github.com/ArJatala" target="_blank" class="bg-purple-600 hover:bg-purple-500 text-white font-medium px-6 py-3 rounded-xl transition duration-300 shadow-lg shadow-purple-900/20 text-sm mono-text">
@@ -80,15 +90,15 @@
 
         <div class="lg:col-span-5 flex justify-center lg:order-2 order-1">
             <div class="relative w-full max-w-sm">
-                <div class="animated-border-container rounded-2xl shadow-2xl">
-                    <img src="17657.jpg" 
-                         onerror="this.src='https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=500&auto=format&fit=crop&q=80'"
+                
+                <div class="animated-profile-glow rounded-2xl overflow-hidden shadow-2xl cyber-grid-placeholder">
+                    <img src="profile.png" 
                          alt="ArJatala Core Profile Picture" 
-                         class="relative w-full aspect-square object-cover rounded-2xl bg-[#0b101d] transition duration-500">
+                         class="relative w-full aspect-square object-cover bg-[#0b101d]/60">
                 </div>
                      
-                <div class="absolute bottom-4 left-4 bg-[#06080c]/80 backdrop-blur-md px-3 py-1 border border-purple-500/30 rounded-lg text-[10px] uppercase tracking-widest mono-text text-purple-300">
-                    AVATAR: ONLINE
+                <div class="absolute bottom-4 left-4 bg-[#06080c]/90 backdrop-blur-md px-3 py-1 border border-purple-500/30 rounded-lg text-[10px] uppercase tracking-widest mono-text text-purple-300">
+                    AVATAR: profile.png
                 </div>
             </div>
         </div>
@@ -146,25 +156,18 @@
                 <h3 class="text-3xl font-bold text-white mb-2">Co-Architected Production Deployments</h3>
                 <p class="text-slate-400 text-sm">System architectures engineered in cross-functional collaboration with partner @Fatim1509</p>
             </div>
-            <div class="bg-purple-950/30 border border-purple-800/40 px-4 py-3 rounded-xl flex items-center space-x-3 text-xs mono-text">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="text-slate-400">VERIFIED INTERACTION MATRIX:</span>
-                <a href="https://fatim1509.github.io/" target="_blank" class="text-purple-400 hover:text-purple-300 transition underline font-bold">
-                    [ VISIT_PRESIDENT_NODE ]
-                </a>
-            </div>
         </div>
 
         <div class="grid md:grid-cols-2 gap-6">
-            <div class="md:col-span-2 system-card p-8 rounded-2xl relative group overflow-hidden transition-all duration-300 neon-glow">
+            <div class="md:col-span-2 system-card p-8 rounded-2xl relative group overflow-hidden transition-all duration-300 hover:border-purple-400">
                 <div class="absolute top-0 right-0 bg-purple-900/40 border-l border-b border-purple-700/40 text-purple-300 text-xs px-4 py-1.5 mono-text font-bold rounded-bl-xl tracking-widest">FLAGSHIP CORE // GOOGLE GEMINI HACKATHON</div>
                 <h4 class="text-xl font-bold text-white mb-2 tracking-wide">
-                    <a href="https://github.com/Fatim1509/Rime1.0" target="_blank" class="flex items-center space-x-2">
+                    <a href="https://github.com/Fatim1509/Rime1.0" target="_blank" class="flex items-center space-x-2 hover:text-purple-400 transition">
                         <span>Rime v1.0 (Recursive Intelligence Multi-Agent Environment)</span>
                     </a>
                 </h4>
                 <p class="text-slate-300 text-sm leading-relaxed mb-6">
-                    The direct production evolution of our <strong>Google Gemini API Hackathon</strong> architecture. This project reflects the ultimate application of the <strong>"1GB RAM Mindset"</strong>—born out of the necessity to manage cognitive energy after my severe car crash. Just as I had to re-engineer how my own brain processed written exams through severe mental exhaustion, Rime v1.0 handles heavy multi-modal agent clusters under strict hardware thresholds by utilizing aggressive garbage collection routines, memory boundary isolation, and prioritized execution queues. Verified across both our systems.
+                    The direct production evolution of our <strong>Google Gemini API Hackathon</strong> architecture. This project reflects the ultimate application of the <strong>"1GB RAM Mindset"</strong>—born out of the necessity to manage cognitive energy after my severe car crash. Just as I had to re-engineer how my own brain processed written exams through severe mental exhaustion, Rime v1.0 handles heavy multi-modal agent clusters under strict hardware thresholds by utilizing aggressive garbage collection routines, memory boundary isolation, and prioritized execution queues.
                 </p>
                 <div class="flex flex-wrap gap-2 text-xs mono-text text-slate-400">
                     <span class="bg-[#06080c] border border-slate-800 px-3 py-1 rounded-md">Gemini API Framework</span>
@@ -173,10 +176,10 @@
                 </div>
             </div>
 
-            <div class="system-card p-6 rounded-2xl transition-all duration-300 neon-glow relative group">
+            <div class="system-card p-6 rounded-2xl transition-all duration-300 hover:border-purple-400 relative group">
                 <div class="absolute top-0 right-0 bg-purple-950 text-purple-300 text-[10px] px-2 py-1 mono-text rounded-bl-lg border-l border-b border-purple-800/40">🏆 1ST PLACE WINNER</div>
                 <h4 class="text-lg font-bold text-white mb-2">
-                    <a href="https://github.com/Fatim1509/sentinel-0d" target="_blank">sentinel-0d // UMT National Hackathon Shield</a>
+                    <a href="https://github.com/Fatim1509/sentinel-0d" target="_blank" class="hover:text-purple-400 transition">sentinel-0d // UMT National Hackathon Shield</a>
                 </h4>
                 <p class="text-slate-300 text-sm leading-relaxed mb-6">
                     The automated network security engine that secured our **1st-Place Championship** against 300 university competitors at the **UMT National Hackathon**. When our multi-modal data pipeline repeatedly collapsed under memory bottlenecks, I applied the unyielding rules of the iron game—the same absolute discipline that locked out my <strong>200kg deadlift title</strong>. Staying awake until 3:00 AM, I physically stripped baseline threads, isolated data feeds, and balanced computational vectors to keep the live deployment alive under intense real-time review.
@@ -187,12 +190,12 @@
                 </div>
             </div>
 
-            <div class="system-card p-6 rounded-2xl transition-all duration-300 neon-glow">
+            <div class="system-card p-6 rounded-2xl transition-all duration-300 hover:border-purple-400">
                 <h4 class="text-lg font-bold text-white mb-2">
-                    <a href="https://github.com/Fatim1509/Atlasnet" target="_blank">Atlasnet // Independent Routing Node</a>
+                    <a href="https://github.com/Fatim1509/Atlasnet" target="_blank" class="hover:text-purple-400 transition">Atlasnet // Independent Routing Node</a>
                 </h4>
                 <p class="text-slate-300 text-sm leading-relaxed mb-6">
-                    A high-efficiency data packet routing fabric optimized for hardware under restrictive performance boundaries. The architectural design of Atlasnet is a direct tribute to the autonomous structures I built during my matriculation; when forced into a biology track, I broke out by building and deployment of web systems for local businesses for self-funding. It proves that system blockages can always be bypassed with clear, strategic rerouting logic.
+                    A high-efficiency data packet routing fabric optimized for hardware under restrictive performance boundaries. The architectural design of Atlasnet is a direct tribute to the autonomous structures I built during my matriculation; when forced into a biology track, I broke out by building and deploying web systems for local businesses for self-funding. It proves that system blockages can always be bypassed with clear, strategic rerouting logic.
                 </p>
                 <div class="flex flex-wrap gap-2 text-xs mono-text text-slate-400">
                     <span class="bg-[#06080c] border border-slate-800 px-2.5 py-1 rounded-md">Data Core</span>
