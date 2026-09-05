@@ -4,140 +4,185 @@
     <meta name="google-site-verification" content="kCX98kNujMCchfU71JDZ54ymWTPh4hrQKiHCn-lTREo" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArJatala | Core System Matrix v2.0</title>
+    <title>ArJatala | Core System Matrix v3.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon-purple: #a855f7;
-            --neon-blue: #3b82f6;
-            --cyber-bg: #06080c;
+            --neon-blue: #00fff9;
+            --neon-pink: #ff00c1;
+            --cyber-black: #000000;
+            --cyber-dark: #050505;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--cyber-bg);
-            cursor: none; /* Hides default cursor for custom cyberpunk cursor */
+            background-color: var(--cyber-black);
+            color: #e2e8f0;
+            cursor: none;
             overflow-x: hidden;
+            margin: 0;
         }
         
         .mono-text { font-family: 'JetBrains Mono', monospace; }
         html { scroll-behavior: smooth; }
 
-        /* --- CYBERPUNK CUSTOM CURSOR --- */
-        @media (pointer: fine) {
-            .cyber-cursor {
-                position: fixed;
-                top: 0; left: 0;
-                width: 6px; height: 6px;
-                background: var(--neon-purple);
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 10000;
-                transform: translate(-50%, -50%);
-                box-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple);
-                transition: width 0.2s, height 0.2s, background-color 0.2s;
-            }
-            .cyber-cursor-follower {
-                position: fixed;
-                top: 0; left: 0;
-                width: 32px; height: 32px;
-                border: 1px solid rgba(168, 85, 247, 0.6);
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 9999;
-                transform: translate(-50%, -50%);
-                transition: transform 0.1s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
-            }
-            .cursor-hover .cyber-cursor {
-                width: 10px; height: 10px;
-                background: #fff;
-                box-shadow: 0 0 15px #fff;
-            }
-            .cursor-hover .cyber-cursor-follower {
-                width: 45px; height: 45px;
-                border-color: #fff;
-                background: rgba(255,255,255,0.05);
-                transform: translate(-50%, -50%) rotate(45deg);
-                border-radius: 8px; /* Shifts to a diamond on hover */
-            }
+        /* --- CRT SCANLINES --- */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background-size: 100% 4px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.6;
         }
 
-        /* --- 3D DYNAMIC BACKGROUND BUBBLES --- */
-        .bg-particles {
+        /* --- 3D MOVING CYBER GRID BACKGROUND --- */
+        .cyber-grid-container {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            z-index: -1;
+            perspective: 1000px;
+            z-index: -2;
             overflow: hidden;
+            background: radial-gradient(circle at center, #130424 0%, var(--cyber-black) 70%);
+        }
+        .cyber-grid {
+            position: absolute;
+            bottom: -30vh; left: -50vw;
+            width: 200vw; height: 150vh;
+            background-image: 
+                linear-gradient(rgba(168, 85, 247, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 249, 0.2) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(75deg);
+            animation: gridMove 3s linear infinite;
+            box-shadow: inset 0 0 150px var(--cyber-black);
+        }
+        @keyframes gridMove {
+            0% { transform: rotateX(75deg) translateY(0); }
+            100% { transform: rotateX(75deg) translateY(60px); }
+        }
+
+        /* --- CUSTOM CYBERPUNK CURSOR --- */
+        @media (pointer: fine) {
+            .cyber-cursor {
+                position: fixed; top: 0; left: 0;
+                width: 6px; height: 6px;
+                background: var(--neon-blue);
+                border-radius: 50%;
+                pointer-events: none; z-index: 10000;
+                transform: translate(-50%, -50%);
+                box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+                transition: background-color 0.2s, box-shadow 0.2s;
+            }
+            .cyber-cursor-follower {
+                position: fixed; top: 0; left: 0;
+                width: 30px; height: 30px;
+                border: 1px solid var(--neon-pink);
+                border-radius: 0%;
+                pointer-events: none; z-index: 9999;
+                transform: translate(-50%, -50%) rotate(0deg);
+                transition: transform 0.1s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+                box-shadow: inset 0 0 10px rgba(255, 0, 193, 0.2);
+            }
+            .cursor-hover .cyber-cursor {
+                background: var(--neon-pink);
+                box-shadow: 0 0 15px var(--neon-pink);
+            }
+            .cursor-hover .cyber-cursor-follower {
+                width: 50px; height: 50px;
+                border-color: var(--neon-blue);
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+        }
+
+        /* --- REVOLVING EDGE LIGHTING FOR AVATAR --- */
+        .revolving-border {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: var(--cyber-black);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+            transform-style: preserve-3d;
             perspective: 1000px;
         }
-        .particle {
-            position: absolute;
-            bottom: -100px;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(59, 130, 246, 0.1));
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
-            backdrop-filter: blur(2px);
-            border-radius: 15%;
-            animation: floatUp var(--duration, 15s) infinite linear;
-            transform-style: preserve-3d;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-120vh) rotateX(360deg) rotateY(180deg) scale(0.4); opacity: 0; }
-        }
-
-        /* --- 3D SYSTEM CARDS --- */
-        .system-card {
-            background: linear-gradient(145deg, #0b0f19, #080c14);
-            border: 1px solid #1e293b;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-            position: relative;
-        }
-        .system-card::before {
+        .revolving-border::before {
             content: '';
             position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            box-shadow: 0 0 0 0 rgba(168, 85, 247, 0);
-            transition: all 0.4s ease;
-            z-index: -1;
+            width: 150%; height: 150%;
+            background: conic-gradient(from 0deg, transparent 70%, var(--neon-blue) 80%, var(--neon-pink) 100%);
+            animation: revolve 2.5s linear infinite;
+            z-index: 0;
         }
-        .system-card:hover {
-            transform: translateY(-10px) rotateX(4deg) rotateY(-2deg) scale(1.02);
-            border-color: rgba(168, 85, 247, 0.6);
+        @keyframes revolve {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        .system-card:hover::before {
-            box-shadow: 0 20px 40px -10px rgba(168, 85, 247, 0.3);
+        .revolving-border-inner {
+            position: absolute;
+            inset: 4px; /* Border thickness */
+            background: var(--cyber-black);
+            border-radius: calc(1.5rem - 4px);
+            z-index: 1;
+            overflow: hidden;
         }
 
-        /* --- GLITCH TEXT EFFECT --- */
-        .glitch-wrapper { position: relative; display: inline-block; }
+        /* --- IMAGE GLITCH FX --- */
+        .glitch-img-fx {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            animation: imgGlitch 4s infinite;
+            mix-blend-mode: luminosity;
+            transition: mix-blend-mode 0.3s;
+        }
+        .revolving-border:hover .glitch-img-fx {
+            mix-blend-mode: normal;
+        }
+        @keyframes imgGlitch {
+            0%, 92%, 100% { transform: translate(0); filter: drop-shadow(0 0 0 transparent); opacity: 1; }
+            93% { transform: translate(-4px, 4px); filter: drop-shadow(-4px 0 var(--neon-pink)) drop-shadow(4px 0 var(--neon-blue)); opacity: 0.9; }
+            95% { transform: translate(4px, -4px); filter: drop-shadow(4px 0 var(--neon-pink)) drop-shadow(-4px 0 var(--neon-blue)); opacity: 0.8; }
+            97% { transform: translate(-4px, -4px); filter: drop-shadow(-4px 0 var(--neon-blue)) drop-shadow(4px 0 var(--neon-pink)); opacity: 0.9; }
+            99% { transform: translate(4px, 4px); filter: drop-shadow(0 0 0 transparent); opacity: 1; }
+        }
+
+        /* --- TEXT GLITCH FX --- */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+            transform-style: preserve-3d;
+        }
         .glitch-text::before, .glitch-text::after {
             content: attr(data-text);
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            opacity: 0.8;
+            background: var(--cyber-black);
         }
         .glitch-text::before {
             left: 2px;
-            text-shadow: -2px 0 #ff00c1;
+            text-shadow: -2px 0 var(--neon-pink);
             clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+            z-index: -1;
         }
         .glitch-text::after {
             left: -2px;
-            text-shadow: -2px 0 #00fff9;
+            text-shadow: -2px 0 var(--neon-blue);
             clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
+            animation: glitch-anim2 3s infinite linear alternate-reverse;
+            z-index: -2;
         }
         @keyframes glitch-anim {
-            0% { clip: rect(3px, 9999px, 86px, 0); }
+            0% { clip: rect(13px, 9999px, 86px, 0); }
             20% { clip: rect(65px, 9999px, 98px, 0); }
             40% { clip: rect(10px, 9999px, 45px, 0); }
             60% { clip: rect(89px, 9999px, 12px, 0); }
@@ -150,48 +195,47 @@
             40% { clip: rect(12px, 9999px, 89px, 0); }
             60% { clip: rect(45px, 9999px, 10px, 0); }
             80% { clip: rect(98px, 9999px, 65px, 0); }
-            100% { clip: rect(86px, 9999px, 3px, 0); }
+            100% { clip: rect(86px, 9999px, 13px, 0); }
         }
 
-        /* --- PROFILE PICTURE ANIMATION --- */
-        @keyframes glowStream {
-            0% { border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 0 10px rgba(168, 85, 247, 0.2); }
-            50% { border-color: #3b82f6; box-shadow: 0 0 40px rgba(59, 130, 246, 0.7), inset 0 0 20px rgba(59, 130, 246, 0.4); }
-            100% { border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 0 10px rgba(168, 85, 247, 0.2); }
-        }
-        @keyframes profilePulse {
-            0%, 100% { transform: scale(1) translateZ(0); }
-            50% { transform: scale(1.03) translateZ(20px); }
-        }
-        .animated-profile-glow {
-            animation: glowStream 4s linear infinite, profilePulse 6s ease-in-out infinite;
-            border: 3px solid #a855f7;
+        /* --- 3D SYSTEM CARDS --- */
+        .system-card {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #1e293b;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-style: preserve-3d;
-            perspective: 1000px;
         }
-        .cyber-grid-placeholder {
-            background-image: linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
+        .system-card:hover {
+            transform: translateY(-10px) rotateX(4deg) rotateY(-2deg) scale(1.02);
+            border-color: var(--neon-blue);
+            box-shadow: 0 15px 35px -5px rgba(0, 255, 249, 0.2), inset 0 0 20px rgba(0, 255, 249, 0.05);
         }
     </style>
 </head>
-<body class="text-slate-100 selection:bg-purple-600 selection:text-white antialiased hover-targets">
+<body class="selection:bg-pink-600 selection:text-white antialiased hover-targets">
 
-    <!-- CUSTOM CYBERPUNK CURSOR -->
+    <!-- CUSTOM CYBERPUNK CURSOR & SCANLINES -->
+    <div class="scanlines"></div>
     <div class="cyber-cursor hidden sm:block"></div>
     <div class="cyber-cursor-follower hidden sm:block"></div>
 
-    <!-- 3D DYNAMIC BACKGROUND PARTICLES -->
-    <div class="bg-particles" id="particles-container"></div>
+    <!-- 3D GRID BACKGROUND -->
+    <div class="cyber-grid-container">
+        <div class="cyber-grid"></div>
+    </div>
 
-    <nav class="border-b border-slate-900/80 bg-[#06080c]/80 backdrop-blur-xl sticky top-0 z-50 px-6 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+    <!-- 3D FLOATING PARTICLES (JS GENERATED) -->
+    <div id="particles-container" class="fixed inset-0 z-[-1] pointer-events-none perspective-1000"></div>
+
+    <nav class="border-b border-purple-900/50 bg-[#000000]/70 backdrop-blur-md sticky top-0 z-50 px-6 shadow-[0_4px_30px_rgba(168,85,247,0.15)]">
         <div class="max-w-6xl mx-auto h-16 flex items-center justify-between">
-            <span class="mono-text font-bold text-purple-400 text-lg tracking-wider animate-pulse glow-hover">&lt;SYS_CORE // ARJATALA&gt;</span>
+            <span class="mono-text font-bold text-purple-400 text-lg tracking-wider glitch-text" data-text="<SYS_CORE // ARJATALA>">&lt;SYS_CORE // ARJATALA&gt;</span>
             <div class="hidden sm:flex space-x-8 text-xs mono-text uppercase tracking-widest text-slate-400">
-                <a href="#identity" class="hover:text-purple-400 hover:text-shadow-glow transition duration-300">01// Identity</a>
-                <a href="#chronicles" class="hover:text-purple-400 hover:text-shadow-glow transition duration-300">02// Chronicles</a>
-                <a href="#nodes" class="hover:text-purple-400 hover:text-shadow-glow transition duration-300">03// Nodes</a>
-                <a href="#telemetry" class="hover:text-purple-400 hover:text-shadow-glow transition duration-300">04// Telemetry</a>
+                <a href="#identity" class="hover:text-cyan-400 transition duration-300">01// Identity</a>
+                <a href="#chronicles" class="hover:text-cyan-400 transition duration-300">02// Chronicles</a>
+                <a href="#nodes" class="hover:text-cyan-400 transition duration-300">03// Nodes</a>
+                <a href="#telemetry" class="hover:text-cyan-400 transition duration-300">04// Telemetry</a>
             </div>
         </div>
     </nav>
@@ -202,44 +246,42 @@
             <!-- STATUS BADGES -->
             <div class="flex flex-col gap-3">
                 <div class="flex flex-wrap items-center gap-3">
-                    <div class="inline-flex items-center space-x-3 bg-emerald-950/40 border border-emerald-500/50 rounded-full px-4 py-1.5 text-xs text-emerald-300 mono-text shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span class="font-bold">SECURED ADMISSION: FAST NUCES</span>
+                    <div class="inline-flex items-center space-x-3 bg-emerald-950/60 border border-emerald-500/80 rounded-sm px-4 py-1.5 text-xs text-emerald-400 mono-text shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                        <span class="w-2 h-2 bg-emerald-400 animate-ping"></span>
+                        <span class="font-bold tracking-wider">SECURED ADMISSION: FAST NUCES</span>
                     </div>
-                    <a href="https://fatim1509.github.io/" target="_blank" class="inline-flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-full px-3 py-1.5 text-[11px] text-slate-300 mono-text transition hover:border-purple-500/50">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <a href="https://fatim1509.github.io/" target="_blank" class="inline-flex items-center space-x-1.5 bg-black hover:bg-gray-900 border border-gray-800 rounded-sm px-3 py-1.5 text-[11px] text-gray-400 mono-text transition hover:border-cyan-500/50">
+                        <span class="w-1.5 h-1.5 bg-cyan-400"></span>
                         <span>[ VERIFY_NODE: FATIM1509 ]</span>
                     </a>
                 </div>
                 
                 <div class="flex flex-wrap items-center gap-3">
-                    <div class="inline-flex items-center space-x-3 bg-red-950/40 border border-red-500/40 rounded-full px-4 py-1.5 text-xs text-red-300 mono-text shadow-[0_0_10px_rgba(239,68,68,0.2)]">
-                        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                        <span>PHYSIQUE MATRIX: PROFESSIONAL BODYBUILDER</span>
+                    <div class="inline-flex items-center space-x-3 bg-red-950/60 border border-red-500/60 rounded-sm px-4 py-1.5 text-xs text-red-400 mono-text shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+                        <span class="w-2 h-2 bg-red-500 animate-pulse"></span>
+                        <span class="tracking-wider">PHYSIQUE: PRO BODYBUILDER</span>
                     </div>
-                    <div class="inline-flex items-center space-x-3 bg-purple-950/40 border border-purple-800/40 rounded-full px-4 py-1.5 text-xs text-purple-300 mono-text">
-                        <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
-                        <span>VP // CODE CATALYST CLUB</span>
+                    <div class="inline-flex items-center space-x-3 bg-purple-950/60 border border-purple-500/60 rounded-sm px-4 py-1.5 text-xs text-purple-400 mono-text">
+                        <span class="w-2 h-2 bg-purple-400 animate-pulse"></span>
+                        <span class="tracking-wider">VP // CODE CATALYST</span>
                     </div>
                 </div>
             </div>
             
-            <div class="glitch-wrapper">
-                <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white leading-tight glitch-text" data-text="The Architecture of">
-                    The Architecture of <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-violet-400 to-indigo-400 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">Sustained Intensity</span>
-                </h1>
-            </div>
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white leading-tight glitch-text" data-text="The Architecture of">
+                The Architecture of <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 drop-shadow-[0_0_20px_rgba(0,255,249,0.5)] glitch-text" data-text="Sustained Intensity">Sustained Intensity</span>
+            </h1>
             
-            <p class="text-slate-400 text-lg leading-relaxed max-w-2xl">
-                Operating with a <code class="mono-text bg-slate-900 px-1.5 py-0.5 rounded text-purple-300 border border-purple-800/50 text-sm shadow-[0_0_5px_rgba(168,85,247,0.3)]">"1GB RAM Mindset"</code>. 
+            <p class="text-gray-400 text-lg leading-relaxed max-w-2xl font-light">
+                Operating with a <code class="mono-text bg-black px-1.5 py-0.5 rounded-sm text-pink-400 border border-pink-900/50 text-sm shadow-[0_0_10px_rgba(255,0,193,0.2)]">"1GB RAM Mindset"</code>. 
                 Systems Integration Engineer, Professional Bodybuilder, and incoming **FAST NUCES** architect. Specializing in stripping runtime constraints, backend defense vectors, and maximizing output in resource-starved environments.
             </p>
             <div class="flex flex-wrap gap-4 pt-4">
-                <a href="https://github.com/ArJatala" target="_blank" class="bg-purple-600 hover:bg-purple-500 text-white font-medium px-6 py-3 rounded-xl transition duration-300 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:-translate-y-1 text-sm mono-text transform">
+                <a href="https://github.com/ArJatala" target="_blank" class="bg-purple-600 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-sm transition duration-300 shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(255,0,193,0.7)] hover:-translate-y-1 text-sm mono-text transform uppercase border border-purple-400 hover:border-pink-400">
                     [ ACCESS_GITHUB ]
                 </a>
-                <a href="https://devpost.com/abdurrehmanijazali?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" class="bg-[#0b0f19] hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-purple-500 font-medium px-6 py-3 rounded-xl transition duration-300 text-sm mono-text transform hover:-translate-y-1">
+                <a href="https://devpost.com/abdurrehmanijazali?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" class="bg-black hover:bg-gray-900 text-cyan-400 border border-cyan-900 hover:border-cyan-400 font-bold px-6 py-3 rounded-sm transition duration-300 text-sm mono-text transform hover:-translate-y-1 uppercase shadow-[0_0_10px_rgba(0,255,249,0.1)] hover:shadow-[0_0_20px_rgba(0,255,249,0.4)]">
                     [ DEVPOST_CONSOLE ]
                 </a>
             </div>
@@ -248,170 +290,199 @@
         <div class="lg:col-span-5 flex justify-center lg:order-2 order-1 perspective-1000">
             <div class="relative w-full max-w-sm transform-gpu hover:rotate-y-12 transition-transform duration-500">
                 
-                <div class="animated-profile-glow rounded-2xl overflow-hidden shadow-2xl cyber-grid-placeholder">
-                    <!-- Ensure you have profile.png in the directory -->
-                    <img src="profile.png" 
-                         alt="ArJatala Core Profile" 
-                         class="relative w-full aspect-square object-cover bg-[#0b101d]/60 mix-blend-luminosity hover:mix-blend-normal transition duration-500">
+                <!-- CYBERPUNK REVOLVING BORDER AVATAR -->
+                <div class="revolving-border">
+                    <div class="revolving-border-inner">
+                        <img src="profile.png" 
+                             alt="ArJatala Core Profile" 
+                             class="glitch-img-fx"
+                             onerror="this.src='https://via.placeholder.com/400x400/000000/00fff9?text=AVATAR_MISSING'">
+                    </div>
                 </div>
                      
-                <div class="absolute -bottom-4 -left-4 bg-[#06080c]/90 backdrop-blur-md px-4 py-2 border border-purple-500/50 rounded-lg text-xs uppercase tracking-widest mono-text text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                <div class="absolute -bottom-4 -left-4 bg-black/90 backdrop-blur-md px-4 py-2 border border-cyan-500/80 rounded-sm text-xs uppercase tracking-widest mono-text text-cyan-400 shadow-[0_0_20px_rgba(0,255,249,0.4)] z-10 glitch-text" data-text="AVATAR // ENTITY: ARJATALA">
                     AVATAR // ENTITY: ARJATALA
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="chronicles" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-900/60 relative z-10">
-        <h2 class="text-xs font-bold tracking-widest text-purple-400 mono-text uppercase mb-2 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]">// DATA CORE OVERVIEW</h2>
-        <h3 class="text-3xl font-bold mb-12 text-white">The Weight I Chose to Carry</h3>
+    <section id="chronicles" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-900 relative z-10">
+        <h2 class="text-xs font-bold tracking-widest text-pink-500 mono-text uppercase mb-2 drop-shadow-[0_0_8px_rgba(255,0,193,0.8)] glitch-text" data-text="// DATA CORE OVERVIEW">// DATA CORE OVERVIEW</h2>
+        <h3 class="text-3xl font-bold mb-12 text-white glitch-text" data-text="The Weight I Chose to Carry">The Weight I Chose to Carry</h3>
 
-        <div class="space-y-12 max-w-4xl">
-            <div class="relative pl-8 border-l-2 border-purple-900/60 group hover:border-purple-500 transition duration-300">
-                <div class="absolute w-4 h-4 rounded-full bg-purple-500 -left-[9px] top-1.5 border-4 border-[#06080c] group-hover:bg-purple-300 group-hover:shadow-[0_0_10px_#a855f7] transition"></div>
-                <h4 class="mono-text text-sm text-purple-400 font-bold mb-2 group-hover:text-purple-300 transition">SYSTEM_LOG_01 // THE ABSOLUTE HONESTY OF IRON</h4>
-                <p class="text-slate-300 leading-relaxed text-base">
-                    The chalk dust on my palms felt like ash. Backstage at the city deadlift championship, my heart hammered against my ribs as I braced for the absolute honesty of iron. Physical mass has no mercy—it either leaves the ground or it remains stationary. I locked out a <strong>200-kilogram bar</strong>, claiming the <strong>under-19 title</strong>, which laid the foundation for my ongoing journey as a <strong>Professional Bodybuilder</strong>. I found a deep, reassuring safety in a world governed by unyielding structural rules—a discipline I now apply directly to software architecture.
+        <div class="space-y-12 max-w-4xl border-l border-gray-800 ml-4">
+            <div class="relative pl-8 group hover:border-purple-500 transition duration-300">
+                <div class="absolute w-4 h-4 rounded-none bg-black -left-[8px] top-1.5 border-2 border-purple-500 group-hover:bg-purple-500 group-hover:shadow-[0_0_15px_#a855f7] transition transform group-hover:rotate-45"></div>
+                <h4 class="mono-text text-sm text-purple-400 font-bold mb-2 group-hover:text-purple-300 transition glitch-text" data-text="SYSTEM_LOG_01 // HONESTY OF IRON">SYSTEM_LOG_01 // HONESTY OF IRON</h4>
+                <p class="text-gray-400 leading-relaxed text-base group-hover:text-gray-200 transition">
+                    The chalk dust on my palms felt like ash. Backstage at the city deadlift championship, my heart hammered against my ribs. Physical mass has no mercy—it either leaves the ground or it remains stationary. I locked out a <strong class="text-cyan-400">200-kilogram bar</strong>, claiming the <strong class="text-cyan-400">under-19 title</strong>, which laid the foundation for my ongoing journey as a <strong class="text-pink-400">Professional Bodybuilder</strong>. I found a deep safety in unyielding rules—a discipline I now apply directly to software architecture.
                 </p>
             </div>
 
-            <div class="relative pl-8 border-l-2 border-purple-900/60 group hover:border-purple-500 transition duration-300">
-                <div class="absolute w-4 h-4 rounded-full bg-purple-500 -left-[9px] top-1.5 border-4 border-[#06080c] group-hover:bg-purple-300 group-hover:shadow-[0_0_10px_#a855f7] transition"></div>
-                <h4 class="mono-text text-sm text-purple-400 font-bold mb-2 group-hover:text-purple-300 transition">SYSTEM_LOG_02 // SYSTEM EXPECTATIONS & INDEPENDENCE</h4>
-                <p class="text-slate-300 leading-relaxed text-base">
-                    In matric, cultural conformity dictated a pre-medical biology track. Memorizing anatomical definitions felt like an external load designed to collapse my natural inclination toward computational logic. Resisting that momentum meant risking total fracture. I waged a quiet, relentless war to force a redirection into computer science, funding my autonomy by building and selling websites for cash. I began to see systems—biological, psychological, and computational—as identical under stress.
+            <div class="relative pl-8 group hover:border-cyan-500 transition duration-300">
+                <div class="absolute w-4 h-4 rounded-none bg-black -left-[8px] top-1.5 border-2 border-cyan-500 group-hover:bg-cyan-500 group-hover:shadow-[0_0_15px_#00fff9] transition transform group-hover:rotate-45"></div>
+                <h4 class="mono-text text-sm text-cyan-400 font-bold mb-2 group-hover:text-cyan-300 transition glitch-text" data-text="SYSTEM_LOG_02 // SYSTEM INDEPENDENCE">SYSTEM_LOG_02 // SYSTEM INDEPENDENCE</h4>
+                <p class="text-gray-400 leading-relaxed text-base group-hover:text-gray-200 transition">
+                    In matric, cultural conformity dictated a pre-medical biology track. Memorizing anatomical definitions felt like an external load designed to collapse my inclination toward computational logic. I waged a quiet, relentless war to force a redirection into computer science, funding my autonomy by building and selling websites for cash. I began to see systems—biological and computational—as identical under stress.
                 </p>
             </div>
 
-            <div class="relative pl-8 border-l-2 border-purple-900/60 group hover:border-purple-500 transition duration-300">
-                <div class="absolute w-4 h-4 rounded-full bg-purple-500 -left-[9px] top-1.5 border-4 border-[#06080c] group-hover:bg-purple-300 group-hover:shadow-[0_0_10px_#a855f7] transition"></div>
-                <h4 class="mono-text text-sm text-purple-400 font-bold mb-2 group-hover:text-purple-300 transition">SYSTEM_LOG_03 // ARCHITECTURAL RE-ENGINEERING</h4>
-                <p class="text-slate-300 leading-relaxed text-base">
-                    Just as I engineered my independence, a violent car crash forced me to test this limit on myself. The impact shattered my physical momentum right before college examinations. Navigating severe concussion fog is a terrifying variable. In the examination hall, the execution pathway between cognitive intent and written output was completely throttled. You cannot simply apply more blunt force to a fractured frame; you must re-engineer how the architecture handles the load. This birthed my <strong>"1GB RAM Mindset"</strong>.
+            <div class="relative pl-8 group hover:border-pink-500 transition duration-300">
+                <div class="absolute w-4 h-4 rounded-none bg-black -left-[8px] top-1.5 border-2 border-pink-500 group-hover:bg-pink-500 group-hover:shadow-[0_0_15px_#ff00c1] transition transform group-hover:rotate-45"></div>
+                <h4 class="mono-text text-sm text-pink-400 font-bold mb-2 group-hover:text-pink-300 transition glitch-text" data-text="SYSTEM_LOG_03 // ARCHITECTURAL RE-ENGINEERING">SYSTEM_LOG_03 // ARCHITECTURAL RE-ENGINEERING</h4>
+                <p class="text-gray-400 leading-relaxed text-base group-hover:text-gray-200 transition">
+                    A violent car crash forced me to test this limit on myself. Navigating severe concussion fog is a terrifying variable. In the examination hall, the execution pathway between cognitive intent and written output was completely throttled. You cannot simply apply more blunt force to a fractured frame; you must re-engineer how the architecture handles the load. This birthed my <strong class="text-cyan-400">"1GB RAM Mindset"</strong>.
                 </p>
             </div>
 
-            <div class="relative pl-8 border-l-2 border-emerald-900/60 group hover:border-emerald-500 transition duration-300">
-                <div class="absolute w-4 h-4 rounded-full bg-emerald-500 -left-[9px] top-1.5 border-4 border-[#06080c] group-hover:bg-emerald-300 group-hover:shadow-[0_0_10px_#10b981] transition"></div>
-                <h4 class="mono-text text-sm text-emerald-400 font-bold mb-2 group-hover:text-emerald-300 transition">SYSTEM_LOG_04 // THE FAST NUCES OVERRIDE</h4>
-                <p class="text-slate-300 leading-relaxed text-base">
-                    All of this friction, every crushed limitation, culminated in the ultimate system override: securing admission into <strong>FAST NUCES</strong>, the most notoriously rigorous computer science institution in the country. They demand resilience, and I arrived having already rebuilt my cognitive and physical framework from the ground up. FAST NUCES isn't just an academic milestone; it is the deployment server where my highly optimized, stress-tested logic will scale to production.
+            <div class="relative pl-8 group hover:border-emerald-500 transition duration-300">
+                <div class="absolute w-4 h-4 rounded-none bg-black -left-[8px] top-1.5 border-2 border-emerald-500 group-hover:bg-emerald-500 group-hover:shadow-[0_0_15px_#10b981] transition transform group-hover:rotate-45"></div>
+                <h4 class="mono-text text-sm text-emerald-400 font-bold mb-2 group-hover:text-emerald-300 transition glitch-text" data-text="SYSTEM_LOG_04 // FAST NUCES OVERRIDE">SYSTEM_LOG_04 // FAST NUCES OVERRIDE</h4>
+                <p class="text-gray-400 leading-relaxed text-base group-hover:text-gray-200 transition">
+                    All of this friction culminated in the ultimate system override: securing admission into <strong class="text-emerald-400">FAST NUCES</strong>. They demand resilience, and I arrived having already rebuilt my cognitive and physical framework from the ground up. FAST NUCES isn't just an academic milestone; it is the deployment server where my highly optimized, stress-tested logic will scale to production.
                 </p>
             </div>
-        </div>
-
-        <div class="mt-16 bg-gradient-to-br from-purple-900/20 to-blue-900/10 border border-purple-500/30 p-8 rounded-xl max-w-4xl shadow-[0_0_30px_rgba(168,85,247,0.15)] relative overflow-hidden group">
-            <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 group-hover:opacity-10 transition duration-500 blur"></div>
-            <p class="text-purple-200 italic text-lg leading-relaxed font-medium relative z-10">
-                "Our first-place victory proved that the world is saturated with architects who can design beautiful, unconstrained systems on paper. But when environments get resource-starved, when expectations compress, and when the structure threatens to buckle, you need a stabilizer who knows how to hold the frame together. I do not fear heavy loads, because I know exactly how to build the framework to carry them."
-            </p>
         </div>
     </section>
 
-    <section id="nodes" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-900/60 relative z-10">
-        <h2 class="text-xs font-bold tracking-widest text-purple-400 mono-text uppercase mb-2 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]">// RUNTIME ENGINES & MILESTONES</h2>
+    <section id="nodes" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-900 relative z-10">
+        <h2 class="text-xs font-bold tracking-widest text-cyan-400 mono-text uppercase mb-2 drop-shadow-[0_0_8px_rgba(0,255,249,0.8)] glitch-text" data-text="// RUNTIME ENGINES & MILESTONES">// RUNTIME ENGINES & MILESTONES</h2>
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-                <h3 class="text-3xl font-bold text-white mb-2">Co-Architected Production Deployments</h3>
-                <p class="text-slate-400 text-sm">System architectures engineered in cross-functional collaboration with partner @Fatim1509</p>
+                <h3 class="text-3xl font-bold text-white mb-2 glitch-text" data-text="Co-Architected Deployments">Co-Architected Deployments</h3>
+                <p class="text-gray-500 text-sm mono-text">System architectures engineered with @Fatim1509</p>
             </div>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8 perspective-1000">
-            <div class="md:col-span-2 system-card p-8 rounded-2xl cursor-pointer hover:border-purple-400">
-                <div class="absolute top-0 right-0 bg-purple-900/60 border-l border-b border-purple-500/60 text-purple-100 text-xs px-4 py-1.5 mono-text font-bold rounded-bl-xl tracking-widest shadow-[-5px_5px_15px_rgba(168,85,247,0.3)]">FLAGSHIP CORE // GOOGLE GEMINI HACKATHON</div>
+            <div class="md:col-span-2 system-card p-8 rounded-sm cursor-pointer border-purple-900/50 hover:border-purple-400">
+                <div class="absolute top-0 right-0 bg-purple-900/80 border-l border-b border-purple-400 text-white text-xs px-4 py-1.5 mono-text font-bold shadow-[-5px_5px_20px_rgba(168,85,247,0.5)] glitch-text" data-text="FLAGSHIP CORE // GEMINI">FLAGSHIP CORE // GEMINI</div>
                 <h4 class="text-2xl font-bold text-white mb-2 tracking-wide mt-2">
                     <a href="https://github.com/Fatim1509/Rime1.0" target="_blank" class="flex items-center space-x-2 hover:text-purple-400 transition drop-shadow-md">
-                        <span>Rime v1.0 (Recursive Intelligence Multi-Agent Environment)</span>
+                        <span>Rime v1.0 (Recursive Intelligence Multi-Agent)</span>
                     </a>
                 </h4>
-                <p class="text-slate-300 text-sm leading-relaxed mb-6 mt-4">
-                    The direct production evolution of our <strong>Google Gemini API Hackathon</strong> architecture. This project reflects the ultimate application of the <strong>"1GB RAM Mindset"</strong>. Just as I had to re-engineer how my own brain processed outputs through severe mental exhaustion, Rime v1.0 handles heavy multi-modal agent clusters under strict hardware thresholds by utilizing aggressive garbage collection routines and memory boundary isolation.
+                <p class="text-gray-400 text-sm leading-relaxed mb-6 mt-4">
+                    The direct production evolution of our <strong>Google Gemini API Hackathon</strong> architecture. This project reflects the ultimate application of the <strong>"1GB RAM Mindset"</strong>. Rime v1.0 handles heavy multi-modal agent clusters under strict hardware thresholds by utilizing aggressive garbage collection routines and memory boundary isolation.
                 </p>
                 <div class="flex flex-wrap gap-3 text-xs mono-text text-purple-300">
-                    <span class="bg-[#06080c]/80 border border-purple-800/50 px-3 py-1.5 rounded-md shadow-[0_0_10px_rgba(168,85,247,0.1)]">Gemini API Framework</span>
-                    <span class="bg-[#06080c]/80 border border-purple-800/50 px-3 py-1.5 rounded-md shadow-[0_0_10px_rgba(168,85,247,0.1)]">Resource Orchestration</span>
-                    <span class="bg-[#06080c]/80 border border-purple-800/50 px-3 py-1.5 rounded-md shadow-[0_0_10px_rgba(168,85,247,0.1)]">Memory Tuning</span>
+                    <span class="bg-black border border-purple-800/80 px-3 py-1.5 shadow-[0_0_10px_rgba(168,85,247,0.2)]">Gemini API Framework</span>
+                    <span class="bg-black border border-purple-800/80 px-3 py-1.5 shadow-[0_0_10px_rgba(168,85,247,0.2)]">Resource Orchestration</span>
                 </div>
             </div>
 
-            <div class="system-card p-6 rounded-2xl cursor-pointer hover:border-purple-400">
-                <div class="absolute top-0 right-0 bg-yellow-600/20 text-yellow-300 text-[10px] px-3 py-1.5 mono-text rounded-bl-lg border-l border-b border-yellow-500/40 shadow-[-2px_2px_10px_rgba(234,179,8,0.2)]">🏆 1ST PLACE WINNER</div>
+            <div class="system-card p-6 rounded-sm cursor-pointer border-cyan-900/50 hover:border-cyan-400">
+                <div class="absolute top-0 right-0 bg-yellow-600/30 text-yellow-300 text-[10px] px-3 py-1.5 mono-text border-l border-b border-yellow-500 shadow-[-2px_2px_15px_rgba(234,179,8,0.3)]">🏆 1ST PLACE WINNER</div>
                 <h4 class="text-xl font-bold text-white mb-2 mt-2">
-                    <a href="https://github.com/Fatim1509/sentinel-0d" target="_blank" class="hover:text-purple-400 transition drop-shadow-md">sentinel-0d // UMT Hackathon Shield</a>
+                    <a href="https://github.com/Fatim1509/sentinel-0d" target="_blank" class="hover:text-cyan-400 transition drop-shadow-md">sentinel-0d // UMT Shield</a>
                 </h4>
-                <p class="text-slate-300 text-sm leading-relaxed mb-6">
-                    The automated network security engine that secured our **1st-Place Championship** against 300 competitors. I applied the unyielding rules of the iron game—staying awake until 3:00 AM, stripping baseline threads, and physically isolating data feeds to keep the live deployment alive under intense real-time review.
+                <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                    Automated network security engine that secured our **1st-Place Championship**. I applied the rules of iron—staying awake until 3:00 AM, stripping baseline threads, and physically isolating data feeds to keep the deployment alive.
                 </p>
-                <div class="flex flex-wrap gap-2 text-xs mono-text text-slate-400">
-                    <span class="bg-[#06080c] border border-slate-700 px-2.5 py-1 rounded-md">SecOps Matrix</span>
-                    <span class="bg-[#06080c] border border-slate-700 px-2.5 py-1 rounded-md">Threat Vectoring</span>
+                <div class="flex flex-wrap gap-2 text-xs mono-text text-cyan-400">
+                    <span class="bg-black border border-cyan-900 px-2.5 py-1">SecOps Matrix</span>
+                    <span class="bg-black border border-cyan-900 px-2.5 py-1">Threat Vectoring</span>
                 </div>
             </div>
 
-            <div class="system-card p-6 rounded-2xl cursor-pointer hover:border-purple-400">
+            <div class="system-card p-6 rounded-sm cursor-pointer border-pink-900/50 hover:border-pink-400">
                 <h4 class="text-xl font-bold text-white mb-2">
-                    <a href="https://github.com/Fatim1509/Atlasnet" target="_blank" class="hover:text-purple-400 transition drop-shadow-md">Atlasnet // Independent Routing</a>
+                    <a href="https://github.com/Fatim1509/Atlasnet" target="_blank" class="hover:text-pink-400 transition drop-shadow-md">Atlasnet // Independent Routing</a>
                 </h4>
-                <p class="text-slate-300 text-sm leading-relaxed mb-6">
-                    A high-efficiency data packet routing fabric optimized for restrictive performance boundaries. The design of Atlasnet is a direct tribute to the autonomous structures I built during my matriculation, bypassing systemic blockages with clear, strategic rerouting logic.
+                <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                    A high-efficiency data packet routing fabric optimized for restrictive performance boundaries. The design of Atlasnet bypasses systemic blockages with clear, strategic rerouting logic.
                 </p>
-                <div class="flex flex-wrap gap-2 text-xs mono-text text-slate-400">
-                    <span class="bg-[#06080c] border border-slate-700 px-2.5 py-1 rounded-md">Data Core</span>
-                    <span class="bg-[#06080c] border border-slate-700 px-2.5 py-1 rounded-md">Network Routing</span>
+                <div class="flex flex-wrap gap-2 text-xs mono-text text-pink-400">
+                    <span class="bg-black border border-pink-900 px-2.5 py-1">Data Core</span>
+                    <span class="bg-black border border-pink-900 px-2.5 py-1">Network Routing</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="telemetry" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-900/60 relative z-10">
-        <h2 class="text-xs font-bold tracking-widest text-purple-400 mono-text uppercase mb-2 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]">// PERFORMANCE ENGINE</h2>
-        <h3 class="text-3xl font-bold mb-12 text-white">Live Git Telemetry & Waves</h3>
+    <!-- FIXED RUNTIME STATS SECTION (Parameters Corrected for Stability) -->
+    <section id="telemetry" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-900 relative z-10">
+        <h2 class="text-xs font-bold tracking-widest text-purple-500 mono-text uppercase mb-2 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)] glitch-text" data-text="// PERFORMANCE ENGINE">// PERFORMANCE ENGINE</h2>
+        <h3 class="text-3xl font-bold mb-12 text-white glitch-text" data-text="Live Git Telemetry & Waves">Live Git Telemetry & Waves</h3>
 
         <div class="space-y-6 perspective-1000">
-            <div class="w-full bg-[#080c14]/80 backdrop-blur-sm p-4 rounded-2xl border border-purple-900/30 flex justify-center hover:border-purple-500/50 transition duration-500 shadow-[0_0_20px_rgba(0,0,0,0.5)] transform-gpu hover:scale-[1.01]">
-                <img src="https://github-readme-activity-graph.vercel.app/graph?username=ArJatala&theme=tokyonight&bg_color=080c14&color=c084fc&line=a78bfa&point=ffffff&area=true&hide_border=true" class="w-full drop-shadow-[0_0_15px_rgba(168,85,247,0.3)]" alt="Real-time Commit Matrix" />
+            <div class="w-full bg-black/80 backdrop-blur-md p-4 rounded-sm border border-gray-800 flex justify-center hover:border-cyan-500 transition duration-500 shadow-[0_0_20px_rgba(0,0,0,0.8)] transform-gpu hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(0,255,249,0.2)]">
+                <!-- Removed count_private to fix 500 errors, set bg_color=000000 for true black -->
+                <img src="https://github-readme-activity-graph.vercel.app/graph?username=ArJatala&theme=tokyonight&bg_color=000000&color=00fff9&line=ff00c1&point=ffffff&area=true&hide_border=true" 
+                     class="w-full filter drop-shadow-[0_0_15px_rgba(0,255,249,0.3)]" 
+                     alt="Real-time Commit Matrix" 
+                     onerror="this.style.display='none'" />
             </div>
 
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-[#080c14]/80 backdrop-blur-sm p-4 rounded-2xl border border-purple-900/30 flex justify-center hover:border-purple-500/50 transition duration-500 transform-gpu hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(168,85,247,0.15)]">
-                    <img src="https://github-readme-stats.vercel.app/api?username=ArJatala&show_icons=true&theme=tokyonight&count_private=true&hide_border=true&title_color=c084fc&icon_color=c084fc&bg_color=080c14" class="max-w-full drop-shadow-[0_0_10px_rgba(168,85,247,0.2)]" alt="Account Core Runtime Stats" />
+                <div class="bg-black/80 backdrop-blur-md p-4 rounded-sm border border-gray-800 flex justify-center hover:border-pink-500 transition duration-500 transform-gpu hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(255,0,193,0.2)]">
+                    <!-- Removed count_private to fix 500 errors, set bg_color=000000 -->
+                    <img src="https://github-readme-stats.vercel.app/api?username=ArJatala&show_icons=true&theme=tokyonight&hide_border=true&title_color=ff00c1&icon_color=00fff9&text_color=e2e8f0&bg_color=000000" 
+                         class="max-w-full filter drop-shadow-[0_0_10px_rgba(255,0,193,0.2)]" 
+                         alt="Account Core Runtime Stats"
+                         onerror="this.style.display='none'" />
                 </div>
-                <div class="bg-[#080c14]/80 backdrop-blur-sm p-4 rounded-2xl border border-purple-900/30 flex justify-center hover:border-purple-500/50 transition duration-500 transform-gpu hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(168,85,247,0.15)]">
-                    <img src="https://github-readme-streak-stats.herokuapp.com/?user=ArJatala&theme=tokyonight&hide_border=true&fire=c084fc&ring=c084fc&background=080c14" class="max-w-full drop-shadow-[0_0_10px_rgba(168,85,247,0.2)]" alt="Commit Streak Pipeline" />
+                <div class="bg-black/80 backdrop-blur-md p-4 rounded-sm border border-gray-800 flex justify-center hover:border-purple-500 transition duration-500 transform-gpu hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(168,85,247,0.2)]">
+                    <!-- Set background=000000 for true black streak stats -->
+                    <img src="https://github-readme-streak-stats.herokuapp.com/?user=ArJatala&theme=tokyonight&hide_border=true&fire=00fff9&ring=ff00c1&background=000000&currStreakNum=e2e8f0" 
+                         class="max-w-full filter drop-shadow-[0_0_10px_rgba(168,85,247,0.2)]" 
+                         alt="Commit Streak Pipeline"
+                         onerror="this.style.display='none'" />
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="border-t border-purple-900/50 bg-[#04060a] py-12 text-center text-xs tracking-widest text-slate-500 font-medium relative z-10 shadow-[0_-10px_30px_rgba(168,85,247,0.05)]">
-        <p class="mono-text mb-4 text-purple-400/50 drop-shadow-md">LOGOUT_SUCCESSFUL // DATA DISCONNECTED // SECURE ACCESS GRANTED</p>
+    <footer class="border-t border-gray-900 bg-black py-12 text-center text-xs tracking-widest text-gray-600 font-medium relative z-10">
+        <p class="mono-text mb-4 text-cyan-900 drop-shadow-md glitch-text" data-text="LOGOUT_SUCCESSFUL // DATA DISCONNECTED">LOGOUT_SUCCESSFUL // DATA DISCONNECTED</p>
         <div class="flex justify-center hover:scale-105 transition transform duration-300">
-            <img src="https://komarev.com/ghpvc/?username=ArJatala&color=c084fc&style=for-the-badge&label=PORTFOLIO+PING_VECTORS" alt="Telemetry Hit Counter" class="rounded shadow-[0_0_10px_rgba(168,85,247,0.3)]" />
+            <img src="https://komarev.com/ghpvc/?username=ArJatala&color=00fff9&style=for-the-badge&label=PORTFOLIO+PING_VECTORS" 
+                 alt="Telemetry Hit Counter" 
+                 class="rounded-sm shadow-[0_0_15px_rgba(0,255,249,0.3)]" />
         </div>
     </footer>
 
     <!-- INTERACTIVE SCRIPTS -->
     <script>
-        // 1. Dynamic Cyberpunk Background Particles Generation
+        // 1. 3D Cyberpunk Floating Background Particles
         const particleContainer = document.getElementById('particles-container');
-        const particleCount = 20; // Number of floating blocks
+        const particleCount = 25; 
         
         for (let i = 0; i < particleCount; i++) {
             let particle = document.createElement('div');
-            particle.classList.add('particle');
+            // Randomly assign neon blue, pink, or purple borders to particles
+            const colors = ['rgba(0,255,249,0.4)', 'rgba(255,0,193,0.4)', 'rgba(168,85,247,0.4)'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
             
-            // Randomize position, size, and animation duration
-            let size = Math.random() * 40 + 10; // 10px to 50px
-            let left = Math.random() * 100; // 0vw to 100vw
-            let duration = Math.random() * 15 + 10; // 10s to 25s
-            let delay = Math.random() * 15; // 0s to 15s delay
+            particle.style.position = 'absolute';
+            particle.style.border = `1px solid ${color}`;
+            particle.style.boxShadow = `0 0 10px ${color}`;
+            particle.style.background = 'transparent';
+            particle.style.transformStyle = 'preserve-3d';
+            
+            let size = Math.random() * 60 + 20; 
+            let left = Math.random() * 100; 
+            let duration = Math.random() * 20 + 10; 
+            let delay = Math.random() * 20; 
             
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${left}vw`;
-            particle.style.setProperty('--duration', `${duration}s`);
-            particle.style.animationDelay = `${delay}s`;
+            particle.style.bottom = '-100px';
+            
+            // Inject dynamic animation using Element.animate
+            particle.animate([
+                { transform: `translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)`, opacity: 0 },
+                { opacity: 0.8, offset: 0.1 },
+                { opacity: 0.8, offset: 0.9 },
+                { transform: `translate3d(${Math.random()*200 - 100}px, -120vh, ${Math.random()*500 - 250}px) rotateX(720deg) rotateY(360deg)`, opacity: 0 }
+            ], {
+                duration: duration * 1000,
+                delay: delay * 1000,
+                iterations: Infinity,
+                easing: 'linear'
+            });
             
             particleContainer.appendChild(particle);
         }
@@ -419,9 +490,8 @@
         // 2. Custom Cyberpunk Cursor Logic
         const cursor = document.querySelector('.cyber-cursor');
         const follower = document.querySelector('.cyber-cursor-follower');
-        const hoverTargets = document.querySelectorAll('a, button, .system-card, .group');
+        const hoverTargets = document.querySelectorAll('a, button, .system-card, .group, img');
 
-        // Check if device supports hover before running heavy JS cursor
         if (window.matchMedia("(pointer: fine)").matches) {
             let mouseX = 0, mouseY = 0;
             let followerX = 0, followerY = 0;
@@ -429,18 +499,15 @@
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
-                
-                // Instant update for inner dot
                 cursor.style.left = mouseX + 'px';
                 cursor.style.top = mouseY + 'px';
             });
             
-            // Smooth follower animation
             function animateFollower() {
                 let dx = mouseX - followerX;
                 let dy = mouseY - followerY;
-                followerX += dx * 0.15; // Lower number = smoother/slower trailing
-                followerY += dy * 0.15;
+                followerX += dx * 0.2; 
+                followerY += dy * 0.2;
                 
                 follower.style.left = followerX + 'px';
                 follower.style.top = followerY + 'px';
@@ -448,7 +515,6 @@
             }
             animateFollower();
             
-            // Hover State Triggers
             hoverTargets.forEach(target => {
                 target.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
                 target.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
