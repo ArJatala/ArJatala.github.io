@@ -397,12 +397,12 @@
             </div>
             
             <div class="hidden md:flex space-x-8 text-xs mono-text uppercase tracking-widest text-gray-400">
-                <a href="#founders" class="hover:text-red-400 transition duration-300">01// Identity</a>
-                <a href="#chronicles" class="hover:text-red-400 transition duration-300">02// Chronicles</a>
-                <a href="#squad-goal" class="hover:text-red-400 transition duration-300">03// Squad Objective</a>
-                <a href="#skills" class="hover:text-red-400 transition duration-300">04// Tech Matrix</a>
-                <a href="#deployments" class="hover:text-red-400 transition duration-300">05// Deployments</a>
-                <a href="#telemetry" class="hover:text-red-400 transition duration-300">06// Telemetry</a>
+                <a href="#founders" onclick="playMysteriousGlitchSound()" class="hover:text-red-400 transition duration-300">01// Identity</a>
+                <a href="#chronicles" onclick="playMysteriousGlitchSound()" class="hover:text-red-400 transition duration-300">02// Chronicles</a>
+                <a href="#squad-goal" onclick="playMysteriousGlitchSound()" class="hover:text-red-400 transition duration-300">03// Squad Objective</a>
+                <a href="#skills" onclick="playMysteriousGlitchSound()" class="hover:text-red-400 transition duration-300">04// Tech Matrix</a>
+                <a href="#deployments" onclick="playMysteriousGlitchSound()" class="hover:text-red-400 transition duration-300">05// Deployments</a>
+                <a href="#telemetry" onclick="playMysteriousGlitchSound()" class="hover:text-red-400 transition duration-300">06// Telemetry</a>
             </div>
         </div>
     </nav>
@@ -756,12 +756,12 @@
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
-            if (!ambientActive && !document.body.classList.contains('docked')) {
+            if (!ambientActive) {
                 startMysteriousAmbient();
             }
         }
 
-        // Mysterious Ambient Drone
+        // Mysterious Ambient Drone (NOW RUNS CONTINUOUSLY)
         function startMysteriousAmbient() {
             if (!audioCtx) return;
             ambientActive = true;
@@ -784,7 +784,7 @@
             lfo.start();
 
             ambientGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
-            ambientGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 3);
+            ambientGain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 3); // Kept slightly lower volume to not overpower
 
             ambientOsc.connect(filterNode);
             filterNode.connect(ambientGain);
@@ -793,17 +793,45 @@
             ambientOsc.start();
         }
 
-        function stopMysteriousAmbient() {
-            if (ambientGain && audioCtx) {
-                ambientGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
-                setTimeout(() => {
-                    if (ambientOsc) ambientOsc.stop();
-                    ambientActive = false;
-                }, 1200);
-            }
+        // HEAVY SYSTEM BOOT SOUND
+        function playBootSound() {
+            try {
+                initAudioOnInteraction();
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.5);
+                
+                gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+                
+                // High pitch ping
+                const ping = audioCtx.createOscillator();
+                const pingGain = audioCtx.createGain();
+                ping.type = 'sine';
+                ping.frequency.setValueAtTime(2000, audioCtx.currentTime);
+                ping.frequency.exponentialRampToValueAtTime(500, audioCtx.currentTime + 0.2);
+                
+                pingGain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                pingGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                
+                ping.connect(pingGain);
+                pingGain.connect(audioCtx.destination);
+                ping.start();
+                ping.stop(audioCtx.currentTime + 0.2);
+            } catch(e) {}
         }
 
-        // Mysterious Glitch SFX
+        // Mysterious Glitch SFX (Amplified)
         function playMysteriousGlitchSound() {
             try {
                 initAudioOnInteraction();
@@ -812,32 +840,32 @@
                 const gain = audioCtx.createGain();
                 const filter = audioCtx.createBiquadFilter();
 
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.12);
+                osc.type = 'sawtooth'; // Changed to sawtooth for harsher electronic feel
+                osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.15);
 
                 filter.type = 'bandpass';
                 filter.frequency.setValueAtTime(1500, audioCtx.currentTime);
                 filter.Q.setValueAtTime(5, audioCtx.currentTime);
 
-                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+                gain.gain.setValueAtTime(0.35, audioCtx.currentTime); // Louder
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
 
                 osc.connect(filter);
                 filter.connect(gain);
                 gain.connect(audioCtx.destination);
 
                 osc.start();
-                osc.stop(audioCtx.currentTime + 0.12);
+                osc.stop(audioCtx.currentTime + 0.15);
 
                 const subOsc = audioCtx.createOscillator();
                 const subGain = audioCtx.createGain();
 
-                subOsc.type = 'sine';
-                subOsc.frequency.setValueAtTime(120, audioCtx.currentTime);
-                subOsc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.15);
+                subOsc.type = 'square';
+                subOsc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                subOsc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.15);
 
-                subGain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                subGain.gain.setValueAtTime(0.4, audioCtx.currentTime);
                 subGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
 
                 subOsc.connect(subGain);
@@ -851,8 +879,7 @@
         }
 
         function bootSystemMatrix() {
-            playMysteriousGlitchSound();
-            stopMysteriousAmbient();
+            playBootSound();
             document.body.classList.add('docked');
             
             setTimeout(() => {
@@ -862,7 +889,7 @@
 
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50 && !document.body.classList.contains('docked')) {
-                stopMysteriousAmbient();
+                // Drone stays running now
                 document.body.classList.add('docked');
             }
         });
@@ -884,13 +911,13 @@
             if (!e.touches) return;
             for (let i = 0; i < e.touches.length; i++) {
                 const touch = e.touches[i];
-                for (let p = 0; p < 8; p++) {
+                for (let p = 0; p < 12; p++) { // Increased particles on touch
                     touchParticles.push({
                         x: touch.clientX,
                         y: touch.clientY,
-                        vx: (Math.random() - 0.5) * 8,
-                        vy: (Math.random() - 0.5) * 8,
-                        size: Math.random() * 12 + 4,
+                        vx: (Math.random() - 0.5) * 10,
+                        vy: (Math.random() - 0.5) * 10,
+                        size: Math.random() * 15 + 5,
                         color: Math.random() > 0.5 ? '#ff2a2a' : '#00fff9',
                         life: 1.0
                     });
