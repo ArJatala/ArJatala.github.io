@@ -1,45 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-    <meta name="google-site-verification" content="kCX98kNujMCchfU71JDZ54ymWTPh4hrQKiHCn-lTREo" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArJatala | Core System Matrix v3.0</title>
+    <title>THE SILENT EXPLOIT // CORE MATRIX</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-purple: #a855f7;
+            --neon-red: #ff2a2a;
+            --neon-crimson: #ff0055;
             --neon-blue: #00fff9;
-            --neon-pink: #ff00c1;
-            --cyber-black: #000000;
-            --cyber-dark: #050505;
+            --neon-purple: #a855f7;
+            --cyber-black: #030305;
+            --cyber-dark: #08000d;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--cyber-black);
-            color: #e2e8f0;
+            color: #f1f5f9;
             cursor: none;
             overflow-x: hidden;
             margin: 0;
+            scroll-behavior: smooth;
         }
-        
-        .mono-text { font-family: 'JetBrains Mono', monospace; }
-        html { scroll-behavior: smooth; }
 
-        /* --- CRT SCANLINES --- */
+        .mono-text { font-family: 'JetBrains Mono', monospace; }
+
+        /* --- CRT SCANLINES OVERLAY --- */
         .scanlines {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4));
             background-size: 100% 4px;
             z-index: 9999;
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.7;
         }
 
-        /* --- 3D MOVING CYBER GRID BACKGROUND --- */
+        /* --- 3D MOVING CYBER GRID --- */
         .cyber-grid-container {
             position: fixed;
             top: 0; left: 0;
@@ -47,80 +47,80 @@
             perspective: 1000px;
             z-index: -2;
             overflow: hidden;
-            background: radial-gradient(circle at center, #130424 0%, var(--cyber-black) 70%);
+            background: radial-gradient(circle at center, #1f0008 0%, var(--cyber-black) 75%);
         }
         .cyber-grid {
             position: absolute;
             bottom: -30vh; left: -50vw;
             width: 200vw; height: 150vh;
             background-image: 
-                linear-gradient(rgba(168, 85, 247, 0.4) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 249, 0.2) 1px, transparent 1px);
-            background-size: 60px 60px;
+                linear-gradient(rgba(255, 42, 42, 0.25) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 249, 0.15) 1px, transparent 1px);
+            background-size: 50px 50px;
             transform: rotateX(75deg);
-            animation: gridMove 3s linear infinite;
+            animation: gridMove 2.5s linear infinite;
             box-shadow: inset 0 0 150px var(--cyber-black);
+            will-change: transform;
         }
         @keyframes gridMove {
             0% { transform: rotateX(75deg) translateY(0); }
-            100% { transform: rotateX(75deg) translateY(60px); }
+            100% { transform: rotateX(75deg) translateY(50px); }
         }
 
-        /* --- CUSTOM CYBERPUNK CURSOR --- */
+        /* --- HIGH-PRECISION CYBER CURSOR --- */
         @media (pointer: fine) {
             .cyber-cursor {
                 position: fixed; top: 0; left: 0;
                 width: 6px; height: 6px;
-                background: var(--neon-blue);
+                background: var(--neon-red);
                 border-radius: 50%;
                 pointer-events: none; z-index: 10000;
-                transform: translate(-50%, -50%);
-                box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
-                transition: background-color 0.2s, box-shadow 0.2s;
+                transform: translate3d(-50%, -50%, 0);
+                box-shadow: 0 0 12px var(--neon-red), 0 0 24px var(--neon-red);
+                transition: background-color 0.15s, box-shadow 0.15s;
             }
             .cyber-cursor-follower {
                 position: fixed; top: 0; left: 0;
-                width: 30px; height: 30px;
-                border: 1px solid var(--neon-pink);
-                border-radius: 0%;
+                width: 34px; height: 34px;
+                border: 1px solid var(--neon-crimson);
                 pointer-events: none; z-index: 9999;
-                transform: translate(-50%, -50%) rotate(0deg);
-                transition: transform 0.1s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
-                box-shadow: inset 0 0 10px rgba(255, 0, 193, 0.2);
+                transform: translate3d(-50%, -50%, 0) rotate(0deg);
+                transition: transform 0.08s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+                box-shadow: inset 0 0 10px rgba(255, 0, 85, 0.25);
             }
             .cursor-hover .cyber-cursor {
-                background: var(--neon-pink);
-                box-shadow: 0 0 15px var(--neon-pink);
+                background: var(--neon-blue);
+                box-shadow: 0 0 15px var(--neon-blue);
             }
             .cursor-hover .cyber-cursor-follower {
-                width: 50px; height: 50px;
+                width: 52px; height: 52px;
                 border-color: var(--neon-blue);
-                transform: translate(-50%, -50%) rotate(45deg);
+                transform: translate3d(-50%, -50%, 0) rotate(45deg);
             }
         }
 
-        /* --- REVOLVING EDGE LIGHTING FOR AVATAR --- */
+        /* --- 3D REVOLVING EDGE-LIGHTING AVATAR --- */
         .revolving-border {
             position: relative;
             width: 100%;
             aspect-ratio: 1 / 1;
-            border-radius: 1.5rem;
+            border-radius: 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             background: var(--cyber-black);
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 35px rgba(255, 42, 42, 0.4);
             transform-style: preserve-3d;
-            perspective: 1000px;
         }
         .revolving-border::before {
             content: '';
             position: absolute;
-            width: 150%; height: 150%;
-            background: conic-gradient(from 0deg, transparent 70%, var(--neon-blue) 80%, var(--neon-pink) 100%);
-            animation: revolve 2.5s linear infinite;
+            width: 170%; height: 170%;
+            background: conic-gradient(from 0deg, transparent 60%, var(--neon-red) 80%, var(--neon-blue) 100%);
+            animation: revolve 2s linear infinite;
             z-index: 0;
+            will-change: transform;
         }
         @keyframes revolve {
             0% { transform: rotate(0deg); }
@@ -128,355 +128,485 @@
         }
         .revolving-border-inner {
             position: absolute;
-            inset: 4px; /* Border thickness */
-            background: var(--cyber-black);
-            border-radius: calc(1.5rem - 4px);
+            inset: 3px;
+            background: #000;
+            border-radius: calc(1rem - 3px);
             z-index: 1;
             overflow: hidden;
         }
 
-        /* --- IMAGE GLITCH FX --- */
+        /* --- GLITCH IMAGE EFFECT --- */
         .glitch-img-fx {
             width: 100%; height: 100%;
             object-fit: cover;
-            animation: imgGlitch 4s infinite;
-            mix-blend-mode: luminosity;
-            transition: mix-blend-mode 0.3s;
-        }
-        .revolving-border:hover .glitch-img-fx {
-            mix-blend-mode: normal;
+            animation: imgGlitch 3.5s infinite;
+            filter: contrast(110%) brightness(95%);
+            transition: filter 0.3s;
         }
         @keyframes imgGlitch {
-            0%, 92%, 100% { transform: translate(0); filter: drop-shadow(0 0 0 transparent); opacity: 1; }
-            93% { transform: translate(-4px, 4px); filter: drop-shadow(-4px 0 var(--neon-pink)) drop-shadow(4px 0 var(--neon-blue)); opacity: 0.9; }
-            95% { transform: translate(4px, -4px); filter: drop-shadow(4px 0 var(--neon-pink)) drop-shadow(-4px 0 var(--neon-blue)); opacity: 0.8; }
-            97% { transform: translate(-4px, -4px); filter: drop-shadow(-4px 0 var(--neon-blue)) drop-shadow(4px 0 var(--neon-pink)); opacity: 0.9; }
-            99% { transform: translate(4px, 4px); filter: drop-shadow(0 0 0 transparent); opacity: 1; }
+            0%, 90%, 100% { transform: translate3d(0,0,0); filter: drop-shadow(0 0 0 transparent); }
+            92% { transform: translate3d(-4px, 2px, 0); filter: drop-shadow(-4px 0 var(--neon-red)) drop-shadow(4px 0 var(--neon-blue)); }
+            94% { transform: translate3d(4px, -2px, 0); filter: drop-shadow(4px 0 var(--neon-crimson)) drop-shadow(-4px 0 var(--neon-blue)); }
+            96% { transform: translate3d(-2px, -3px, 0); }
         }
 
-        /* --- TEXT GLITCH FX --- */
+        /* --- REAL-TIME TEXT GLITCH --- */
         .glitch-text {
             position: relative;
             display: inline-block;
-            transform-style: preserve-3d;
         }
         .glitch-text::before, .glitch-text::after {
             content: attr(data-text);
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: var(--cyber-black);
+            background: transparent;
         }
         .glitch-text::before {
             left: 2px;
-            text-shadow: -2px 0 var(--neon-pink);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 3s infinite linear alternate-reverse;
-            z-index: -1;
+            text-shadow: -2px 0 var(--neon-red);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
         }
         .glitch-text::after {
             left: -2px;
             text-shadow: -2px 0 var(--neon-blue);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 3s infinite linear alternate-reverse;
-            z-index: -2;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim2 2.5s infinite linear alternate-reverse;
         }
         @keyframes glitch-anim {
-            0% { clip: rect(13px, 9999px, 86px, 0); }
-            20% { clip: rect(65px, 9999px, 98px, 0); }
-            40% { clip: rect(10px, 9999px, 45px, 0); }
-            60% { clip: rect(89px, 9999px, 12px, 0); }
-            80% { clip: rect(34px, 9999px, 67px, 0); }
-            100% { clip: rect(55px, 9999px, 23px, 0); }
+            0% { clip: rect(10px, 9999px, 40px, 0); }
+            20% { clip: rect(60px, 9999px, 85px, 0); }
+            40% { clip: rect(20px, 9999px, 50px, 0); }
+            60% { clip: rect(80px, 9999px, 15px, 0); }
+            80% { clip: rect(35px, 9999px, 70px, 0); }
+            100% { clip: rect(50px, 9999px, 30px, 0); }
         }
         @keyframes glitch-anim2 {
-            0% { clip: rect(23px, 9999px, 55px, 0); }
-            20% { clip: rect(67px, 9999px, 34px, 0); }
-            40% { clip: rect(12px, 9999px, 89px, 0); }
-            60% { clip: rect(45px, 9999px, 10px, 0); }
-            80% { clip: rect(98px, 9999px, 65px, 0); }
-            100% { clip: rect(86px, 9999px, 13px, 0); }
+            0% { clip: rect(30px, 9999px, 70px, 0); }
+            20% { clip: rect(15px, 9999px, 80px, 0); }
+            40% { clip: rect(55px, 9999px, 20px, 0); }
+            60% { clip: rect(25px, 9999px, 60px, 0); }
+            80% { clip: rect(70px, 9999px, 35px, 0); }
+            100% { clip: rect(40px, 9999px, 90px, 0); }
         }
 
-        /* --- 3D SYSTEM CARDS --- */
-        .system-card {
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid #1e293b;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* --- CARDS & INTERFACE HOVERS --- */
+        .cyber-card {
+            background: rgba(10, 5, 12, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 42, 42, 0.2);
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            will-change: transform, border-color, box-shadow;
+        }
+        .cyber-card:hover {
+            transform: translateY(-8px) rotateX(3deg) rotateY(-2deg);
+            border-color: var(--neon-red);
+            box-shadow: 0 15px 35px -5px rgba(255, 42, 42, 0.3), inset 0 0 20px rgba(255, 42, 42, 0.1);
+        }
+
+        /* --- INTRO OVERLAY & REVOLUTION ANIMATION --- */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            background: radial-gradient(circle at center, #2a0008 0%, #000 85%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.6s ease;
+            will-change: transform, opacity;
+        }
+
+        .logo-wrapper {
+            transition: all 0.8s cubic-bezier(0.77, 0, 0.175, 1);
             transform-style: preserve-3d;
         }
-        .system-card:hover {
-            transform: translateY(-10px) rotateX(4deg) rotateY(-2deg) scale(1.02);
-            border-color: var(--neon-blue);
-            box-shadow: 0 15px 35px -5px rgba(0, 255, 249, 0.2), inset 0 0 20px rgba(0, 255, 249, 0.05);
+
+        /* Docked Logo Mode (When Scrolled / Triggered) */
+        body.docked #intro-overlay {
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(-100%);
         }
     </style>
 </head>
-<body class="selection:bg-pink-600 selection:text-white antialiased hover-targets">
+<body class="selection:bg-red-600 selection:text-white antialiased">
 
-    <!-- CUSTOM CYBERPUNK CURSOR & SCANLINES -->
+    <!-- SCANLINES & DYNAMIC CURSOR -->
     <div class="scanlines"></div>
     <div class="cyber-cursor hidden sm:block"></div>
     <div class="cyber-cursor-follower hidden sm:block"></div>
 
-    <!-- 3D GRID BACKGROUND -->
+    <!-- 3D GRID & PARTICLES CANVAS -->
     <div class="cyber-grid-container">
         <div class="cyber-grid"></div>
     </div>
-
-    <!-- 3D FLOATING PARTICLES (JS GENERATED) -->
     <div id="particles-container" class="fixed inset-0 z-[-1] pointer-events-none perspective-1000"></div>
 
-    <nav class="border-b border-purple-900/50 bg-[#000000]/70 backdrop-blur-md sticky top-0 z-50 px-6 shadow-[0_4px_30px_rgba(168,85,247,0.15)]">
-        <div class="max-w-6xl mx-auto h-16 flex items-center justify-between">
-            <span class="mono-text font-bold text-purple-400 text-lg tracking-wider glitch-text" data-text="<SYS_CORE // ARJATALA>">&lt;SYS_CORE // ARJATALA&gt;</span>
-            <div class="hidden sm:flex space-x-8 text-xs mono-text uppercase tracking-widest text-slate-400">
-                <a href="#identity" class="hover:text-cyan-400 transition duration-300">01// Identity</a>
-                <a href="#chronicles" class="hover:text-cyan-400 transition duration-300">02// Chronicles</a>
-                <a href="#nodes" class="hover:text-cyan-400 transition duration-300">03// Nodes</a>
-                <a href="#telemetry" class="hover:text-cyan-400 transition duration-300">04// Telemetry</a>
+    <!-- ==========================================
+         00 // INTRO OVERLAY (3D LOGO & SOUND INITIATOR)
+         ========================================== -->
+    <div id="intro-overlay">
+        <div class="text-center px-4 max-w-2xl">
+            <!-- DYNAMIC SVG REPRODUCTION OF THE SILENT EXPLOIT LOGO -->
+            <div id="hero-logo" class="logo-wrapper inline-block mb-6 relative group cursor-pointer" onclick="bootSystemMatrix()">
+                <div class="absolute -inset-4 bg-gradient-to-r from-red-600 via-pink-600 to-red-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+                
+                <svg width="240" height="240" viewBox="0 0 300 300" class="relative z-10 mx-auto filter drop-shadow-[0_0_20px_rgba(255,42,42,0.8)] transition-transform duration-500 group-hover:scale-105">
+                    <!-- OUTER DOUBLE RED CIRCLE -->
+                    <circle cx="150" cy="150" r="135" fill="none" stroke="#ff2a2a" stroke-width="2" opacity="0.6"/>
+                    <circle cx="150" cy="150" r="128" fill="#090306" stroke="#ff2a2a" stroke-width="3"/>
+                    
+                    <!-- CODE BRACKETS < > -->
+                    <path d="M 110 100 L 70 150 L 110 200" fill="none" stroke="#ff2a2a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 190 100 L 230 150 L 190 200" fill="none" stroke="#ff2a2a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <!-- KEYHOLE & SLASH -->
+                    <circle cx="150" cy="135" r="14" fill="#ff2a2a"/>
+                    <polygon points="140,140 160,140 168,180 132,180" fill="#ff2a2a"/>
+                    <line x1="120" y1="185" x2="180" y2="115" stroke="#ff2a2a" stroke-width="6" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <!-- BRANDING LOGO TEXT FROM IMAGE -->
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-2 glitch-text uppercase" data-text="the silent exploit">
+                the silent exploit
+            </h1>
+            <p class="mono-text text-xs sm:text-sm tracking-[0.35em] text-red-500 font-bold uppercase mb-8 glitch-text" data-text="CODE · BREACH · MASTER">
+                CODE · BREACH · MASTER
+            </p>
+
+            <!-- INITIALIZE BUTTON -->
+            <button onclick="bootSystemMatrix()" class="mono-text text-xs sm:text-sm bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 px-8 rounded-sm shadow-[0_0_25px_rgba(255,42,42,0.8)] hover:shadow-[0_0_40px_rgba(0,255,249,0.9)] transition-all duration-300 border border-red-400 tracking-widest uppercase">
+                [ INITIALIZE_BREACH // ENTER_MATRIX ]
+            </button>
+            <p class="mono-text text-[10px] text-gray-500 mt-4 tracking-widest animate-pulse">CLICK TO ENGAGE SYNTHESIZED CYBER AUDIO & 3D REVOLUTION</p>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         SYSTEM NAVBAR
+         ========================================== -->
+    <nav class="border-b border-red-900/40 bg-black/80 backdrop-blur-md sticky top-0 z-50 px-6 shadow-[0_4px_30px_rgba(255,42,42,0.2)]">
+        <div class="max-w-7xl mx-auto h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <!-- DOCKED LOGO MINI REPLICATE -->
+                <svg width="34" height="34" viewBox="0 0 300 300" class="filter drop-shadow-[0_0_8px_rgba(255,42,42,0.8)]">
+                    <circle cx="150" cy="150" r="135" fill="none" stroke="#ff2a2a" stroke-width="4"/>
+                    <circle cx="150" cy="150" r="128" fill="#000" stroke="#ff2a2a" stroke-width="6"/>
+                    <path d="M 110 100 L 70 150 L 110 200" fill="none" stroke="#ff2a2a" stroke-width="16" stroke-linecap="round"/>
+                    <path d="M 190 100 L 230 150 L 190 200" fill="none" stroke="#ff2a2a" stroke-width="16" stroke-linecap="round"/>
+                    <circle cx="150" cy="135" r="20" fill="#ff2a2a"/>
+                    <polygon points="135,140 165,140 175,185 125,185" fill="#ff2a2a"/>
+                </svg>
+                <span class="mono-text font-extrabold text-red-500 text-sm tracking-wider glitch-text uppercase" data-text="THE SILENT EXPLOIT">THE SILENT EXPLOIT</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8 text-xs mono-text uppercase tracking-widest text-gray-400">
+                <a href="#founders" class="hover:text-red-400 transition duration-300">01// Founders</a>
+                <a href="#squad-goal" class="hover:text-red-400 transition duration-300">02// Squad Objective</a>
+                <a href="#skills" class="hover:text-red-400 transition duration-300">03// Tech Matrix</a>
+                <a href="#telemetry" class="hover:text-red-400 transition duration-300">04// Telemetry</a>
             </div>
         </div>
     </nav>
 
-    <header id="identity" class="max-w-6xl mx-auto px-6 pt-24 pb-16 grid lg:grid-cols-12 gap-12 items-center relative z-10">
-        <div class="lg:col-span-7 space-y-6 lg:order-1 order-2">
+    <!-- ==========================================
+         01 // HERO & FOUNDERS SECTION
+         ========================================== -->
+    <header id="founders" class="max-w-7xl mx-auto px-6 pt-16 pb-20 grid lg:grid-cols-12 gap-12 items-center relative z-10">
+        <div class="lg:col-span-7 space-y-6">
             
-            <!-- STATUS BADGES -->
-            <div class="flex flex-col gap-3">
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="inline-flex items-center space-x-3 bg-emerald-950/60 border border-emerald-500/80 rounded-sm px-4 py-1.5 text-xs text-emerald-400 mono-text shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-                        <span class="w-2 h-2 bg-emerald-400 animate-ping"></span>
-                        <span class="font-bold tracking-wider">SECURED ADMISSION: FAST NUCES</span>
-                    </div>
-                    <a href="https://fatim1509.github.io/" target="_blank" class="inline-flex items-center space-x-1.5 bg-black hover:bg-gray-900 border border-gray-800 rounded-sm px-3 py-1.5 text-[11px] text-gray-400 mono-text transition hover:border-cyan-500/50">
-                        <span class="w-1.5 h-1.5 bg-cyan-400"></span>
-                        <span>[ VERIFY_NODE: FATIM1509 ]</span>
-                    </a>
+            <!-- ACADEMIC & SQUAD BADGES -->
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="inline-flex items-center space-x-2 bg-red-950/80 border border-red-500/80 rounded-sm px-3.5 py-1.5 text-xs text-red-400 mono-text shadow-[0_0_15px_rgba(255,42,42,0.4)]">
+                    <span class="w-2 h-2 bg-red-500 animate-ping rounded-full"></span>
+                    <span class="font-bold tracking-wider">FAST NUCES :: BSCS OPERATIVES</span>
                 </div>
-                
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="inline-flex items-center space-x-3 bg-red-950/60 border border-red-500/60 rounded-sm px-4 py-1.5 text-xs text-red-400 mono-text shadow-[0_0_15px_rgba(239,68,68,0.3)]">
-                        <span class="w-2 h-2 bg-red-500 animate-pulse"></span>
-                        <span class="tracking-wider">: :: BODYBUILDER :: </span>
-                    </div>
-                    <div class="inline-flex items-center space-x-3 bg-purple-950/60 border border-purple-500/60 rounded-sm px-4 py-1.5 text-xs text-purple-400 mono-text">
-                        <span class="w-2 h-2 bg-purple-400 animate-pulse"></span>
-                        <span class="tracking-wider">VP // CODE CATALYST</span>
-                    </div>
+                <div class="inline-flex items-center space-x-2 bg-cyan-950/80 border border-cyan-500/80 rounded-sm px-3.5 py-1.5 text-xs text-cyan-400 mono-text shadow-[0_0_15px_rgba(0,255,249,0.3)]">
+                    <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+                    <span class="font-bold tracking-wider">TEAM: THE SILENT EXPLOIT</span>
                 </div>
             </div>
-            
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white leading-tight glitch-text" data-text="The Architecture of">
-                The Architecture of <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 drop-shadow-[0_0_20px_rgba(0,255,249,0.5)] glitch-text" data-text="Sustained Intensity">Sustained Intensity</span>
+
+            <!-- MAIN TITLE IDENTITY -->
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-none uppercase">
+                <span class="glitch-text" data-text="AR JATALA">AR JATALA</span> <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-cyan-400 text-3xl sm:text-5xl font-extrabold glitch-text" data-text="FOUNDER // CHIEF ARCHITECT">
+                    FOUNDER // CHIEF ARCHITECT
+                </span>
             </h1>
-            
-            <p class="text-gray-400 text-lg leading-relaxed max-w-2xl font-light">
-                Operating with a <code class="mono-text bg-black px-1.5 py-0.5 rounded-sm text-pink-400 border border-pink-900/50 text-sm shadow-[0_0_10px_rgba(255,0,193,0.2)]">"1GB RAM Mindset"</code>. 
-                Systems Integration Engineer, Professional Bodybuilder, and incoming **FAST NUCES** architect. Specializing in stripping runtime constraints, backend defense vectors, and maximizing output in resource-starved environments.
+
+            <p class="text-gray-300 text-base sm:text-lg leading-relaxed max-w-2xl font-light">
+                Pioneering high-stress systems engineering under the strict <code class="mono-text bg-black px-2 py-0.5 rounded text-red-400 border border-red-900/60 text-sm">"1GB RAM Mindset"</code>. Operating alongside Co-Founder <strong class="text-cyan-400">Fatim Shahbaz</strong> inside the high-pressure crucible of **FAST NUCES BSCS**.
             </p>
-            <div class="flex flex-wrap gap-4 pt-4">
-                <a href="https://github.com/ArJatala" target="_blank" class="bg-purple-600 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-sm transition duration-300 shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(255,0,193,0.7)] hover:-translate-y-1 text-sm mono-text transform uppercase border border-purple-400 hover:border-pink-400">
-                    [ ACCESS_GITHUB ]
-                </a>
-                <a href="https://devpost.com/abdurrehmanijazali?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" class="bg-black hover:bg-gray-900 text-cyan-400 border border-cyan-900 hover:border-cyan-400 font-bold px-6 py-3 rounded-sm transition duration-300 text-sm mono-text transform hover:-translate-y-1 uppercase shadow-[0_0_10px_rgba(0,255,249,0.1)] hover:shadow-[0_0_20px_rgba(0,255,249,0.4)]">
-                    [ DEVPOST_CONSOLE ]
-                </a>
+
+            <!-- FOUNDER / CO-FOUNDER QUICK ROSTER GRID -->
+            <div class="grid sm:grid-cols-2 gap-4 pt-2">
+                <div class="cyber-card p-4 rounded-sm border-l-4 border-l-red-500">
+                    <span class="mono-text text-[10px] text-red-400 tracking-widest uppercase font-bold block mb-1">[ FOUNDER_NODE ]</span>
+                    <h3 class="text-lg font-bold text-white">AR JATALA</h3>
+                    <p class="text-xs text-gray-400 mono-text mt-1">Systems Architecture, Linux Ricing, SecOps, Vibe Coding</p>
+                </div>
+                <div class="cyber-card p-4 rounded-sm border-l-4 border-l-cyan-400">
+                    <span class="mono-text text-[10px] text-cyan-400 tracking-widest uppercase font-bold block mb-1">[ CO-FOUNDER_NODE ]</span>
+                    <h3 class="text-lg font-bold text-white">FATIM SHAHBAZ</h3>
+                    <p class="text-xs text-gray-400 mono-text mt-1">Research Lead, Algorithmic Engineering, Multi-Agent Logic</p>
+                </div>
             </div>
         </div>
 
-        <div class="lg:col-span-5 flex justify-center lg:order-2 order-1 perspective-1000">
+        <!-- 3D REVOLVING EDGE LIGHTING AVATAR PORTRAIT -->
+        <div class="lg:col-span-5 flex justify-center perspective-1000">
             <div class="relative w-full max-w-sm transform-gpu hover:rotate-y-12 transition-transform duration-500">
-                
-                <!-- CYBERPUNK REVOLVING BORDER AVATAR -->
                 <div class="revolving-border">
                     <div class="revolving-border-inner">
                         <img src="profile.png" 
-                             alt="ArJatala Core Profile" 
+                             alt="AR Jatala Founder" 
                              class="glitch-img-fx"
-                             onerror="this.src='https://via.placeholder.com/400x400/000000/00fff9?text=AVATAR_MISSING'">
+                             onerror="this.src='https://via.placeholder.com/400x400/08000d/ff2a2a?text=AR_JATALA_FOUNDER'">
                     </div>
                 </div>
-                     
-                <div class="absolute -bottom-4 -left-4 bg-black/90 backdrop-blur-md px-4 py-2 border border-cyan-500/80 rounded-sm text-xs uppercase tracking-widest mono-text text-cyan-400 shadow-[0_0_20px_rgba(0,255,249,0.4)] z-10 glitch-text" data-text="AVATAR // ENTITY: ARJATALA">
-                    AVATAR // ENTITY: ARJATALA
+                <div class="absolute -bottom-4 -left-4 bg-black/90 backdrop-blur-md px-4 py-2 border border-red-500/80 rounded-sm text-xs uppercase tracking-widest mono-text text-red-400 shadow-[0_0_20px_rgba(255,42,42,0.5)] z-10 glitch-text" data-text="FOUNDER // AR JATALA">
+                    FOUNDER // AR JATALA
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="chronicles" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-900 relative z-10">
-        <h2 class="text-xs font-bold tracking-widest text-pink-500 mono-text uppercase mb-2 drop-shadow-[0_0_8px_rgba(255,0,193,0.8)] glitch-text" data-text="// DATA CORE OVERVIEW">// DATA CORE OVERVIEW</h2>
-        <h3 class="text-3xl font-bold mb-12 text-white glitch-text" data-text="The Weight I Chose to Carry">The Weight I Chose to Carry</h3>
-
-        <div class="space-y-12 max-w-4xl border-l border-gray-800 ml-4">
-            <div class="relative pl-8 group hover:border-purple-500 transition duration-300">
-                <div class="absolute w-4 h-4 rounded-none bg-black -left-[8px] top-1.5 border-2 border-purple-500 group-hover:bg-purple-500 group-hover:shadow-[0_0_15px_#a855f7] transition transform group-hover:rotate-45"></div>
-                <h4 class="mono-text text-sm text-purple-400 font-bold mb-2 group-hover:text-purple-300 transition glitch-text" data-text="SYSTEM_LOG_01 // HONESTY OF IRON">SYSTEM_LOG_01 // HONESTY OF IRON</h4>
-                <p class="text-gray-400 leading-relaxed text-base group-hover:text-gray-200 transition">
-                    The chalk dust on my palms felt like ash. Backstage at the city deadlift championship, my heart hammered against my ribs. Physical mass has no mercy—it either leaves the ground or it remains stationary. I locked out a <strong class="text-cyan-400">200-kilogram bar</strong>, claiming the <strong class="text-cyan-400">under-19 title</strong>, which laid the foundation for my ongoing journey as a <strong class="text-pink-400">Professional Bodybuilder</strong>. I found a deep safety in unyielding rules—a discipline I now apply directly to software architecture.
-                </p>
-            </div>
-
-            <div class="relative pl-8 group hover:border-cyan-500 transition duration-300">
-                <div class="absolute w-4 h-4 rounded-none bg-black -left-[8px] top-1.5 border-2 border-cyan-500 group-hover:bg-cyan-500 group-hover:shadow-[0_0_15px_#00fff9] transition transform group-hover:rotate-45"></div>
-                <h4 class="mono-text text-sm text-cyan-400 font-bold mb-2 group-hover:text-cyan-300 transition glitch-text" data-text="SYSTEM_LOG_02 // SYSTEM INDEPENDENCE">SYSTEM_LOG_02 // SYSTEM INDEPENDENCE</h4>
-                <p class="text-gray-400 leading-relaxed text-base group-hover:text-gray-200 transition">
-                    In matric, cultural conformity dictated a pre-medical biology track. Memorizing anatomical definitions felt like an external load designed to collapse my inclination toward computational logic. I waged a quiet, relentless war to force a redirection into computer science, funding my autonomy by building and selling websites for cash. I began to see systems—biological and computational—as identical under stress.
-                </p>
-            </div>
-
-            <div class="relative pl-8 group hover:border-pink-500 transition duration-300">
-                <div class="absolute w-4 h-4 rounded-none bg-black -left-[8px] top-1.5 border-2 border-pink-500 group-hover:bg-pink-500 group-hover:shadow-[0_0_15px_#ff00c1] transition transform group-hover:rotate-45"></div>
-                <h4 class="mono-text text-sm text-pink-400 font-bold mb-2 group-hover:text-pink-300 transition glitch-text" data-text="SYSTEM_LOG_03 // ARCHITECTURAL RE-ENGINEERING">SYSTEM_LOG_03 // ARCHITECTURAL RE-ENGINEERING</h4>
-                <p class="text-gray-400 leading-relaxed text-base group-hover:text-gray-200 transition">
-                    A violent car crash forced me to test this limit on myself. Navigating severe concussion fog is a terrifying variable. In the examination hall, the execution pathway between cognitive intent and written output was completely throttled. You cannot simply apply more blunt force to a fractured frame; you must re-engineer how the architecture handles the load. This birthed my <strong class="text-cyan-400">"1GB RAM Mindset"</strong>.
-                </p>
-            </div>
-
-            <div class="relative pl-8 group hover:border-emerald-500 transition duration-300">
-                <div class="absolute w-4 h-4 rounded-none bg-black -left-[8px] top-1.5 border-2 border-emerald-500 group-hover:bg-emerald-500 group-hover:shadow-[0_0_15px_#10b981] transition transform group-hover:rotate-45"></div>
-                <h4 class="mono-text text-sm text-emerald-400 font-bold mb-2 group-hover:text-emerald-300 transition glitch-text" data-text="SYSTEM_LOG_04 // FAST NUCES OVERRIDE">SYSTEM_LOG_04 // FAST NUCES OVERRIDE</h4>
-                <p class="text-gray-400 leading-relaxed text-base group-hover:text-gray-200 transition">
-                    All of this friction culminated in the ultimate system override: securing admission into <strong class="text-emerald-400">FAST NUCES</strong>. They demand resilience, and I arrived having already rebuilt my cognitive and physical framework from the ground up. FAST NUCES isn't just an academic milestone; it is the deployment server where my highly optimized, stress-tested logic will scale to production.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section id="nodes" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-900 relative z-10">
-        <h2 class="text-xs font-bold tracking-widest text-cyan-400 mono-text uppercase mb-2 drop-shadow-[0_0_8px_rgba(0,255,249,0.8)] glitch-text" data-text="// RUNTIME ENGINES & MILESTONES">// RUNTIME ENGINES & MILESTONES</h2>
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-                <h3 class="text-3xl font-bold text-white mb-2 glitch-text" data-text="Co-Architected Deployments">Co-Architected Deployments</h3>
-                <p class="text-gray-500 text-sm mono-text">System architectures engineered with @Fatim1509</p>
-            </div>
+    <!-- ==========================================
+         02 // SQUAD GOAL & FAST NUCES PRESSURE CRUCIBLE
+         ========================================== -->
+    <section id="squad-goal" class="max-w-7xl mx-auto px-6 py-20 border-t border-red-950/50 relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="mono-text text-xs font-bold tracking-[0.3em] text-red-500 uppercase mb-2 glitch-text" data-text="// MISSION PROTOCOL">// MISSION PROTOCOL</h2>
+            <h3 class="text-3xl sm:text-4xl font-extrabold text-white uppercase glitch-text" data-text="The 10-Member Elite Tactical Goal">
+                The 10-Member Elite Squad Goal
+            </h3>
+            <p class="text-gray-400 text-sm mono-text mt-3">Target: FAST NUCES Computer Science (BSCS) Environment</p>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8 perspective-1000">
-            <div class="md:col-span-2 system-card p-8 rounded-sm cursor-pointer border-purple-900/50 hover:border-purple-400">
-                <div class="absolute top-0 right-0 bg-purple-900/80 border-l border-b border-purple-400 text-white text-xs px-4 py-1.5 mono-text font-bold shadow-[-5px_5px_20px_rgba(168,85,247,0.5)] glitch-text" data-text="FLAGSHIP CORE // GEMINI">FLAGSHIP CORE // GEMINI</div>
-                <h4 class="text-2xl font-bold text-white mb-2 tracking-wide mt-2">
-                    <a href="https://github.com/Fatim1509/Rime1.0" target="_blank" class="flex items-center space-x-2 hover:text-purple-400 transition drop-shadow-md">
-                        <span>Rime v1.0 (Recursive Intelligence Multi-Agent)</span>
-                    </a>
-                </h4>
-                <p class="text-gray-400 text-sm leading-relaxed mb-6 mt-4">
-                    The direct production evolution of our <strong>Google Gemini API Hackathon</strong> architecture. This project reflects the ultimate application of the <strong>"1GB RAM Mindset"</strong>. Rime v1.0 handles heavy multi-modal agent clusters under strict hardware thresholds by utilizing aggressive garbage collection routines and memory boundary isolation.
+        <div class="grid lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 cyber-card p-8 rounded-sm relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-red-950/20 font-black text-9xl select-none pointer-events-none">10</div>
+                <h4 class="mono-text text-red-400 text-sm font-bold tracking-wider mb-4 uppercase">[ HIGH_PRESSURE_SURVIVAL_CRUCIBLE ]</h4>
+                <p class="text-gray-300 text-base leading-relaxed mb-6">
+                    Operating in the notoriously intense environment of **FAST NUCES**, <strong class="text-white">The Silent Exploit</strong> is structured as an elite squad of <strong class="text-red-400">10 high-performance operatives</strong>. Our dual directive is non-negotiable:
                 </p>
-                <div class="flex flex-wrap gap-3 text-xs mono-text text-purple-300">
-                    <span class="bg-black border border-purple-800/80 px-3 py-1.5 shadow-[0_0_10px_rgba(168,85,247,0.2)]">Gemini API Framework</span>
-                    <span class="bg-black border border-purple-800/80 px-3 py-1.5 shadow-[0_0_10px_rgba(168,85,247,0.2)]">Resource Orchestration</span>
-                </div>
+                <ul class="space-y-4 mono-text text-sm text-gray-300">
+                    <li class="flex items-start space-x-3 bg-black/60 p-3 border border-red-900/40 rounded-sm">
+                        <span class="text-red-500 font-bold">01/</span>
+                        <span><strong>GPA DEFENSE:</strong> Maintain top-tier academic performance across all computer science coursework under extreme pressure.</span>
+                    </li>
+                    <li class="flex items-start space-x-3 bg-black/60 p-3 border border-cyan-900/40 rounded-sm">
+                        <span class="text-cyan-400 font-bold">02/</span>
+                        <span><strong>ELITE SKILL MASTERY:</strong> Build production-grade cyber exploits, low-level Linux systems, Vibe Coding pipelines, and scalable software engines.</span>
+                    </li>
+                </ul>
             </div>
 
-            <div class="system-card p-6 rounded-sm cursor-pointer border-cyan-900/50 hover:border-cyan-400">
-                <div class="absolute top-0 right-0 bg-yellow-600/30 text-yellow-300 text-[10px] px-3 py-1.5 mono-text border-l border-b border-yellow-500 shadow-[-2px_2px_15px_rgba(234,179,8,0.3)]">🏆 1ST PLACE WINNER</div>
-                <h4 class="text-xl font-bold text-white mb-2 mt-2">
-                    <a href="https://github.com/Fatim1509/sentinel-0d" target="_blank" class="hover:text-cyan-400 transition drop-shadow-md">sentinel-0d // UMT Shield</a>
-                </h4>
-                <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                    Automated network security engine that secured our **1st-Place Championship**. I applied the rules of iron—staying awake until 3:00 AM, stripping baseline threads, and physically isolating data feeds to keep the deployment alive.
-                </p>
-                <div class="flex flex-wrap gap-2 text-xs mono-text text-cyan-400">
-                    <span class="bg-black border border-cyan-900 px-2.5 py-1">SecOps Matrix</span>
-                    <span class="bg-black border border-cyan-900 px-2.5 py-1">Threat Vectoring</span>
+            <!-- SQUAD HUD STATUS -->
+            <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+                <div class="cyber-card p-5 text-center">
+                    <span class="mono-text text-3xl font-extrabold text-red-500 block mb-1">10</span>
+                    <span class="mono-text text-[10px] text-gray-400 uppercase tracking-widest">SQUAD OPERATIVES</span>
                 </div>
-            </div>
-
-            <div class="system-card p-6 rounded-sm cursor-pointer border-pink-900/50 hover:border-pink-400">
-                <h4 class="text-xl font-bold text-white mb-2">
-                    <a href="https://github.com/Fatim1509/Atlasnet" target="_blank" class="hover:text-pink-400 transition drop-shadow-md">Atlasnet // Independent Routing</a>
-                </h4>
-                <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                    A high-efficiency data packet routing fabric optimized for restrictive performance boundaries. The design of Atlasnet bypasses systemic blockages with clear, strategic rerouting logic.
-                </p>
-                <div class="flex flex-wrap gap-2 text-xs mono-text text-pink-400">
-                    <span class="bg-black border border-pink-900 px-2.5 py-1">Data Core</span>
-                    <span class="bg-black border border-pink-900 px-2.5 py-1">Network Routing</span>
+                <div class="cyber-card p-5 text-center">
+                    <span class="mono-text text-3xl font-extrabold text-cyan-400 block mb-1">4.0</span>
+                    <span class="mono-text text-[10px] text-gray-400 uppercase tracking-widest">TARGET GPA MATRIX</span>
+                </div>
+                <div class="cyber-card p-5 text-center">
+                    <span class="mono-text text-3xl font-extrabold text-purple-400 block mb-1">100%</span>
+                    <span class="mono-text text-[10px] text-gray-400 uppercase tracking-widest">NUCES STRESS LOAD</span>
+                </div>
+                <div class="cyber-card p-5 text-center">
+                    <span class="mono-text text-3xl font-extrabold text-emerald-400 block mb-1">0ms</span>
+                    <span class="mono-text text-[10px] text-gray-400 uppercase tracking-widest">EXECUTION DELAY</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FIXED RUNTIME STATS SECTION (Parameters Corrected for Stability) -->
-    <section id="telemetry" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-900 relative z-10">
-        <h2 class="text-xs font-bold tracking-widest text-purple-500 mono-text uppercase mb-2 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)] glitch-text" data-text="// PERFORMANCE ENGINE">// PERFORMANCE ENGINE</h2>
-        <h3 class="text-3xl font-bold mb-12 text-white glitch-text" data-text="Live Git Telemetry & Waves">Live Git Telemetry & Waves</h3>
+    <!-- ==========================================
+         03 // TECH MATRIX & EXPERTISE GRID
+         ========================================== -->
+    <section id="skills" class="max-w-7xl mx-auto px-6 py-20 border-t border-red-950/50 relative z-10">
+        <div class="mb-12">
+            <h2 class="mono-text text-xs font-bold tracking-[0.3em] text-cyan-400 uppercase mb-2 glitch-text" data-text="// OPERATIONAL EXPERTISE">// OPERATIONAL EXPERTISE</h2>
+            <h3 class="text-3xl font-extrabold text-white uppercase glitch-text" data-text="AR Jatala Stack & Vibe Coding Arsenal">
+                AR Jatala Stack & Vibe Coding Arsenal
+            </h3>
+        </div>
 
-        <div class="space-y-6 perspective-1000">
-            <div class="w-full bg-black/80 backdrop-blur-md p-4 rounded-sm border border-gray-800 flex justify-center hover:border-cyan-500 transition duration-500 shadow-[0_0_20px_rgba(0,0,0,0.8)] transform-gpu hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(0,255,249,0.2)]">
-                <!-- Removed count_private to fix 500 errors, set bg_color=000000 for true black -->
-                <img src="https://github-readme-activity-graph.vercel.app/graph?username=ArJatala&theme=tokyonight&bg_color=000000&color=00fff9&line=ff00c1&point=ffffff&area=true&hide_border=true" 
-                     class="w-full filter drop-shadow-[0_0_15px_rgba(0,255,249,0.3)]" 
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 perspective-1000">
+            <!-- VIBE CODING & AI -->
+            <div class="cyber-card p-6 rounded-sm border-t-2 border-t-red-500">
+                <div class="mono-text text-xs text-red-400 font-bold mb-2">[ FAST_DEPLOYMENT ]</div>
+                <h4 class="text-xl font-bold text-white mb-2">Vibe Coding</h4>
+                <p class="text-gray-400 text-xs leading-relaxed">High-velocity generative workflow orchestration, rapid architectural prototyping, and AI-augmented coding loops.</p>
+            </div>
+
+            <!-- PYTHON & NODE.JS -->
+            <div class="cyber-card p-6 rounded-sm border-t-2 border-t-cyan-400">
+                <div class="mono-text text-xs text-cyan-400 font-bold mb-2">[ BACKEND_CYBER ]</div>
+                <h4 class="text-xl font-bold text-white mb-2">Python & Node.js</h4>
+                <p class="text-gray-400 text-xs leading-relaxed">Asynchronous data pipelines, web exploit automation, network parsers, and high-concurrency microservices.</p>
+            </div>
+
+            <!-- FLUTTER & JAVASCRIPT -->
+            <div class="cyber-card p-6 rounded-sm border-t-2 border-t-purple-400">
+                <div class="mono-text text-xs text-purple-400 font-bold mb-2">[ CROSS_PLATFORM ]</div>
+                <h4 class="text-xl font-bold text-white mb-2">Flutter & JavaScript</h4>
+                <p class="text-gray-400 text-xs leading-relaxed">Responsive GUI design, WebGL shader interactions, dynamic cross-platform mobile apps, and custom DOM animation engines.</p>
+            </div>
+
+            <!-- JAVA & LINUX RICING -->
+            <div class="cyber-card p-6 rounded-sm border-t-2 border-t-emerald-400">
+                <div class="mono-text text-xs text-emerald-400 font-bold mb-2">[ LOW_LEVEL_KERNEL ]</div>
+                <h4 class="text-xl font-bold text-white mb-2">Java & Linux Ricing</h4>
+                <p class="text-gray-400 text-xs leading-relaxed">Object-oriented core logic, custom Arch/Hyprland Linux kernel setups, lean dotfile ricing, and memory optimization.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         04 // TELEMETRY & LIVE PERFORMANCE ENGINE
+         ========================================== -->
+    <section id="telemetry" class="max-w-7xl mx-auto px-6 py-20 border-t border-red-950/50 relative z-10">
+        <h2 class="mono-text text-xs font-bold tracking-[0.3em] text-red-500 uppercase mb-2 glitch-text" data-text="// PERFORMANCE METRICS">// PERFORMANCE METRICS</h2>
+        <h3 class="text-3xl font-extrabold text-white uppercase mb-8 glitch-text" data-text="Live Telemetry Vectors">
+            Live Telemetry Vectors
+        </h3>
+
+        <div class="space-y-6">
+            <div class="bg-black/80 backdrop-blur-md p-4 rounded-sm border border-red-900/50 flex justify-center hover:border-red-500 transition duration-500 shadow-[0_0_20px_rgba(255,42,42,0.2)]">
+                <img src="https://github-readme-activity-graph.vercel.app/graph?username=ArJatala&theme=tokyonight&bg_color=000000&color=ff2a2a&line=00fff9&point=ffffff&area=true&hide_border=true" 
+                     class="w-full filter drop-shadow-[0_0_10px_rgba(255,42,42,0.4)]" 
                      alt="Real-time Commit Matrix" 
                      onerror="this.style.display='none'" />
             </div>
-
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-black/80 backdrop-blur-md p-4 rounded-sm border border-gray-800 flex justify-center hover:border-pink-500 transition duration-500 transform-gpu hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(255,0,193,0.2)]">
-                    <!-- Removed count_private to fix 500 errors, set bg_color=000000 -->
-                    <img src="https://github-readme-stats.vercel.app/api?username=ArJatala&show_icons=true&theme=tokyonight&hide_border=true&title_color=ff00c1&icon_color=00fff9&text_color=e2e8f0&bg_color=000000" 
-                         class="max-w-full filter drop-shadow-[0_0_10px_rgba(255,0,193,0.2)]" 
-                         alt="Account Core Runtime Stats"
-                         onerror="this.style.display='none'" />
-                </div>
-                <div class="bg-black/80 backdrop-blur-md p-4 rounded-sm border border-gray-800 flex justify-center hover:border-purple-500 transition duration-500 transform-gpu hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(168,85,247,0.2)]">
-                    <!-- Set background=000000 for true black streak stats -->
-                    <img src="https://github-readme-streak-stats.herokuapp.com/?user=ArJatala&theme=tokyonight&hide_border=true&fire=00fff9&ring=ff00c1&background=000000&currStreakNum=e2e8f0" 
-                         class="max-w-full filter drop-shadow-[0_0_10px_rgba(168,85,247,0.2)]" 
-                         alt="Commit Streak Pipeline"
-                         onerror="this.style.display='none'" />
-                </div>
-            </div>
         </div>
     </section>
 
-    <footer class="border-t border-gray-900 bg-black py-12 text-center text-xs tracking-widest text-gray-600 font-medium relative z-10">
-        <p class="mono-text mb-4 text-cyan-900 drop-shadow-md glitch-text" data-text="LOGOUT_SUCCESSFUL // DATA DISCONNECTED">LOGOUT_SUCCESSFUL // DATA DISCONNECTED</p>
-        <div class="flex justify-center hover:scale-105 transition transform duration-300">
-            <img src="https://komarev.com/ghpvc/?username=ArJatala&color=00fff9&style=for-the-badge&label=PORTFOLIO+PING_VECTORS" 
-                 alt="Telemetry Hit Counter" 
-                 class="rounded-sm shadow-[0_0_15px_rgba(0,255,249,0.3)]" />
-        </div>
+    <!-- FOOTER -->
+    <footer class="border-t border-red-950/80 bg-black py-10 text-center text-xs tracking-widest text-gray-500 font-medium relative z-10">
+        <p class="mono-text mb-4 text-red-500 glitch-text" data-text="THE SILENT EXPLOIT // FAST NUCES BSCS">THE SILENT EXPLOIT // FAST NUCES BSCS</p>
+        <p class="mono-text text-[10px] text-gray-600 uppercase">CODE · BREACH · MASTER — ALL RIGHTS RESERVED</p>
     </footer>
 
-    <!-- INTERACTIVE SCRIPTS -->
+    <!-- ==========================================
+         INTERACTIVE AUDIO, CURSOR, & PARTICLES JS
+         ========================================== -->
     <script>
-        // 1. 3D Cyberpunk Floating Background Particles
+        // 1. Web Audio API Cyber Sound Synthesizer
+        let audioCtx = null;
+
+        function playGlitchAudio() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                // Glitch Noise Generator
+                const bufferSize = audioCtx.sampleRate * 0.15; // 150ms noise
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const output = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = Math.random() * 2 - 1;
+                }
+
+                const whiteNoise = audioCtx.createBufferSource();
+                whiteNoise.buffer = buffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                filter.Q.setValueAtTime(3, audioCtx.currentTime);
+
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+
+                whiteNoise.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                whiteNoise.start();
+
+                // Synth Low Frequency Burst
+                const osc = audioCtx.createOscillator();
+                const oscGain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.2);
+
+                oscGain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                oscGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+
+                osc.connect(oscGain);
+                oscGain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+            } catch (e) {
+                console.log("Audio synthesis deferred.");
+            }
+        }
+
+        // 2. Boot Matrix & Revolving Transition
+        function bootSystemMatrix() {
+            playGlitchAudio();
+            document.body.classList.add('docked');
+            
+            // Smoothly scroll down to main interface after transition
+            setTimeout(() => {
+                document.getElementById('founders').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+        // Trigger Docking when User Scrolls
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50 && !document.body.classList.contains('docked')) {
+                document.body.classList.add('docked');
+            }
+        });
+
+        // 3. Cyber Particles System
         const particleContainer = document.getElementById('particles-container');
-        const particleCount = 25; 
+        const particleCount = 30; 
         
         for (let i = 0; i < particleCount; i++) {
             let particle = document.createElement('div');
-            // Randomly assign neon blue, pink, or purple borders to particles
-            const colors = ['rgba(0,255,249,0.4)', 'rgba(255,0,193,0.4)', 'rgba(168,85,247,0.4)'];
+            const colors = ['rgba(255,42,42,0.5)', 'rgba(0,255,249,0.4)', 'rgba(255,0,85,0.4)'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             
             particle.style.position = 'absolute';
             particle.style.border = `1px solid ${color}`;
-            particle.style.boxShadow = `0 0 10px ${color}`;
+            particle.style.boxShadow = `0 0 8px ${color}`;
             particle.style.background = 'transparent';
             particle.style.transformStyle = 'preserve-3d';
             
-            let size = Math.random() * 60 + 20; 
+            let size = Math.random() * 40 + 15; 
             let left = Math.random() * 100; 
-            let duration = Math.random() * 20 + 10; 
-            let delay = Math.random() * 20; 
+            let duration = Math.random() * 18 + 10; 
+            let delay = Math.random() * 10; 
             
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${left}vw`;
-            particle.style.bottom = '-100px';
+            particle.style.bottom = '-80px';
             
-            // Inject dynamic animation using Element.animate
             particle.animate([
                 { transform: `translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)`, opacity: 0 },
                 { opacity: 0.8, offset: 0.1 },
                 { opacity: 0.8, offset: 0.9 },
-                { transform: `translate3d(${Math.random()*200 - 100}px, -120vh, ${Math.random()*500 - 250}px) rotateX(720deg) rotateY(360deg)`, opacity: 0 }
+                { transform: `translate3d(${Math.random()*160 - 80}px, -115vh, ${Math.random()*400 - 200}px) rotateX(720deg) rotateY(360deg)`, opacity: 0 }
             ], {
                 duration: duration * 1000,
                 delay: delay * 1000,
@@ -487,10 +617,10 @@
             particleContainer.appendChild(particle);
         }
 
-        // 2. Custom Cyberpunk Cursor Logic
+        // 4. Custom High-Precision Cursor Logic
         const cursor = document.querySelector('.cyber-cursor');
         const follower = document.querySelector('.cyber-cursor-follower');
-        const hoverTargets = document.querySelectorAll('a, button, .system-card, .group, img');
+        const hoverTargets = document.querySelectorAll('a, button, .cyber-card, .logo-wrapper, img');
 
         if (window.matchMedia("(pointer: fine)").matches) {
             let mouseX = 0, mouseY = 0;
@@ -506,8 +636,8 @@
             function animateFollower() {
                 let dx = mouseX - followerX;
                 let dy = mouseY - followerY;
-                followerX += dx * 0.2; 
-                followerY += dy * 0.2;
+                followerX += dx * 0.22; 
+                followerY += dy * 0.22;
                 
                 follower.style.left = followerX + 'px';
                 follower.style.top = followerY + 'px';
@@ -516,7 +646,10 @@
             animateFollower();
             
             hoverTargets.forEach(target => {
-                target.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                target.addEventListener('mouseenter', () => {
+                    document.body.classList.add('cursor-hover');
+                    playGlitchAudio();
+                });
                 target.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
             });
         }
